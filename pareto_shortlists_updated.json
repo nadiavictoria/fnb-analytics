@@ -1,0 +1,644 @@
+{
+  "generated_from": "master_dataset.csv",
+  "concepts": {
+    "affordable_everyday_meal": {
+      "description": "Affordable everyday dining",
+      "primary_metric": "log_footfall",
+      "criteria_used": [
+        "log_footfall",
+        "low_income_ratio",
+        "mid_income_ratio",
+        "hawker_stall_count_ratio",
+        "mean_price_mid"
+      ],
+      "areas": [
+        {
+          "rank": 1,
+          "planning_area": "WOODLANDS",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.877,
+          "criteria_used": "log_footfall, low_income_ratio, mid_income_ratio, hawker_stall_count_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.877; low_income_ratio=0.207; mid_income_ratio=0.420; hawker_stall_count_ratio=0.386; mean_price_mid=9.276",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 21356172,
+          "income_mix": {
+            "low": 0.207,
+            "mid": 0.42,
+            "high": 0.374
+          },
+          "competitor_count": 207,
+          "rent_proxy_psm": 131.97,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.304,
+          "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 2,
+          "planning_area": "BEDOK",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.674,
+          "criteria_used": "log_footfall, low_income_ratio, mid_income_ratio, hawker_stall_count_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.674; low_income_ratio=0.226; mid_income_ratio=0.309; hawker_stall_count_ratio=0.163; mean_price_mid=13.407",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 17435585,
+          "income_mix": {
+            "low": 0.226,
+            "mid": 0.309,
+            "high": 0.465
+          },
+          "competitor_count": 406,
+          "rent_proxy_psm": 226.14,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.283,
+          "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 3,
+          "planning_area": "BUKIT MERAH",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.612,
+          "criteria_used": "log_footfall, low_income_ratio, mid_income_ratio, hawker_stall_count_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.612; low_income_ratio=0.284; mid_income_ratio=0.274; hawker_stall_count_ratio=0.395; mean_price_mid=13.501",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 16390155,
+          "income_mix": {
+            "low": 0.284,
+            "mid": 0.274,
+            "high": 0.442
+          },
+          "competitor_count": 403,
+          "rent_proxy_psm": 286.56,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.297,
+          "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 4,
+          "planning_area": "GEYLANG",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.496,
+          "criteria_used": "log_footfall, low_income_ratio, mid_income_ratio, hawker_stall_count_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.496; low_income_ratio=0.267; mid_income_ratio=0.337; hawker_stall_count_ratio=0.228; mean_price_mid=13.181",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 14594907,
+          "income_mix": {
+            "low": 0.267,
+            "mid": 0.337,
+            "high": 0.396
+          },
+          "competitor_count": 473,
+          "rent_proxy_psm": 128.86,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.288,
+          "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 5,
+          "planning_area": "YISHUN",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.476,
+          "criteria_used": "log_footfall, low_income_ratio, mid_income_ratio, hawker_stall_count_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.476; low_income_ratio=0.237; mid_income_ratio=0.395; hawker_stall_count_ratio=0.159; mean_price_mid=12.344",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 14304556,
+          "income_mix": {
+            "low": 0.237,
+            "mid": 0.395,
+            "high": 0.368
+          },
+          "competitor_count": 164,
+          "rent_proxy_psm": 97.14,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.295,
+          "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        }
+      ]
+    },
+    "premium_cafe": {
+      "description": "Premium cafe / specialty cafe",
+      "primary_metric": "mean_price_mid",
+      "criteria_used": [
+        "mean_price_mid",
+        "high_income_ratio",
+        "unique_category_count",
+        "mean_rating"
+      ],
+      "areas": [
+        {
+          "rank": 1,
+          "planning_area": "RIVER VALLEY",
+          "primary_metric": "mean_price_mid",
+          "primary_value": 50.031,
+          "criteria_used": "mean_price_mid, high_income_ratio, unique_category_count, mean_rating",
+          "criteria_snapshot": "mean_price_mid=50.031; high_income_ratio=0.776; unique_category_count=20.000; mean_rating=4.458",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 328637,
+          "income_mix": {
+            "low": 0.083,
+            "mid": 0.14,
+            "high": 0.776
+          },
+          "competitor_count": 26,
+          "rent_proxy_psm": 44.24,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.384,
+          "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        },
+        {
+          "rank": 2,
+          "planning_area": "TANGLIN",
+          "primary_metric": "mean_price_mid",
+          "primary_value": 49.703,
+          "criteria_used": "mean_price_mid, high_income_ratio, unique_category_count, mean_rating",
+          "criteria_snapshot": "mean_price_mid=49.703; high_income_ratio=0.810; unique_category_count=36.000; mean_rating=4.343",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 2359005,
+          "income_mix": {
+            "low": 0.058,
+            "mid": 0.132,
+            "high": 0.81
+          },
+          "competitor_count": 69,
+          "rent_proxy_psm": 42.59,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.347,
+          "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        },
+        {
+          "rank": 3,
+          "planning_area": "OUTRAM",
+          "primary_metric": "mean_price_mid",
+          "primary_value": 42.219,
+          "criteria_used": "mean_price_mid, high_income_ratio, unique_category_count, mean_rating",
+          "criteria_snapshot": "mean_price_mid=42.219; high_income_ratio=0.387; unique_category_count=77.000; mean_rating=4.461",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 4332449,
+          "income_mix": {
+            "low": 0.359,
+            "mid": 0.254,
+            "high": 0.387
+          },
+          "competitor_count": 325,
+          "rent_proxy_psm": 60.02,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.295,
+          "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        },
+        {
+          "rank": 4,
+          "planning_area": "DOWNTOWN CORE",
+          "primary_metric": "mean_price_mid",
+          "primary_value": 33.446,
+          "criteria_used": "mean_price_mid, high_income_ratio, unique_category_count, mean_rating",
+          "criteria_snapshot": "mean_price_mid=33.446; high_income_ratio=0.740; unique_category_count=116.000; mean_rating=4.310",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 15722045,
+          "income_mix": {
+            "low": 0.073,
+            "mid": 0.187,
+            "high": 0.74
+          },
+          "competitor_count": 758,
+          "rent_proxy_psm": 211.15,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.407,
+          "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        },
+        {
+          "rank": 5,
+          "planning_area": "BUKIT TIMAH",
+          "primary_metric": "mean_price_mid",
+          "primary_value": 15.384,
+          "criteria_used": "mean_price_mid, high_income_ratio, unique_category_count, mean_rating",
+          "criteria_snapshot": "mean_price_mid=15.384; high_income_ratio=0.775; unique_category_count=55.000; mean_rating=4.301",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 6448367,
+          "income_mix": {
+            "low": 0.071,
+            "mid": 0.154,
+            "high": 0.775
+          },
+          "competitor_count": 183,
+          "rent_proxy_psm": 102.65,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.3,
+          "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        }
+      ]
+    },
+    "family_casual_dining": {
+      "description": "Family-oriented casual dining",
+      "primary_metric": "mid_income_ratio",
+      "criteria_used": [
+        "children_ratio",
+        "mid_age_adults_ratio",
+        "weekend_ratio",
+        "mid_income_ratio",
+        "mean_price_mid",
+        "log_competitor_count"
+      ],
+      "areas": [
+        {
+          "rank": 1,
+          "planning_area": "WOODLANDS",
+          "primary_metric": "mid_income_ratio",
+          "primary_value": 0.42,
+          "criteria_used": "children_ratio, mid_age_adults_ratio, weekend_ratio, mid_income_ratio, mean_price_mid, log_competitor_count",
+          "criteria_snapshot": "children_ratio=0.151; mid_age_adults_ratio=0.304; weekend_ratio=0.299; mid_income_ratio=0.420; mean_price_mid=9.276; log_competitor_count=5.338",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 21356172,
+          "income_mix": {
+            "low": 0.207,
+            "mid": 0.42,
+            "high": 0.374
+          },
+          "competitor_count": 207,
+          "rent_proxy_psm": 131.97,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.304,
+          "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 2,
+          "planning_area": "JURONG WEST",
+          "primary_metric": "mid_income_ratio",
+          "primary_value": 0.395,
+          "criteria_used": "children_ratio, mid_age_adults_ratio, weekend_ratio, mid_income_ratio, mean_price_mid, log_competitor_count",
+          "criteria_snapshot": "children_ratio=0.147; mid_age_adults_ratio=0.313; weekend_ratio=0.291; mid_income_ratio=0.395; mean_price_mid=10.786; log_competitor_count=5.231",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 18176818,
+          "income_mix": {
+            "low": 0.192,
+            "mid": 0.395,
+            "high": 0.413
+          },
+          "competitor_count": 186,
+          "rent_proxy_psm": 154.04,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.313,
+          "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 3,
+          "planning_area": "YISHUN",
+          "primary_metric": "mid_income_ratio",
+          "primary_value": 0.395,
+          "criteria_used": "children_ratio, mid_age_adults_ratio, weekend_ratio, mid_income_ratio, mean_price_mid, log_competitor_count",
+          "criteria_snapshot": "children_ratio=0.154; mid_age_adults_ratio=0.295; weekend_ratio=0.297; mid_income_ratio=0.395; mean_price_mid=12.344; log_competitor_count=5.106",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 14304556,
+          "income_mix": {
+            "low": 0.237,
+            "mid": 0.395,
+            "high": 0.368
+          },
+          "competitor_count": 164,
+          "rent_proxy_psm": 97.14,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.295,
+          "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 4,
+          "planning_area": "SEMBAWANG",
+          "primary_metric": "mid_income_ratio",
+          "primary_value": 0.382,
+          "criteria_used": "children_ratio, mid_age_adults_ratio, weekend_ratio, mid_income_ratio, mean_price_mid, log_competitor_count",
+          "criteria_snapshot": "children_ratio=0.180; mid_age_adults_ratio=0.326; weekend_ratio=0.292; mid_income_ratio=0.382; mean_price_mid=11.204; log_competitor_count=4.754",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 7304522,
+          "income_mix": {
+            "low": 0.189,
+            "mid": 0.382,
+            "high": 0.429
+          },
+          "competitor_count": 115,
+          "rent_proxy_psm": 97.14,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.326,
+          "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 5,
+          "planning_area": "JURONG EAST",
+          "primary_metric": "mid_income_ratio",
+          "primary_value": 0.378,
+          "criteria_used": "children_ratio, mid_age_adults_ratio, weekend_ratio, mid_income_ratio, mean_price_mid, log_competitor_count",
+          "criteria_snapshot": "children_ratio=0.114; mid_age_adults_ratio=0.277; weekend_ratio=0.314; mid_income_ratio=0.378; mean_price_mid=14.114; log_competitor_count=5.252",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 9792613,
+          "income_mix": {
+            "low": 0.229,
+            "mid": 0.378,
+            "high": 0.392
+          },
+          "competitor_count": 190,
+          "rent_proxy_psm": 116.36,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.277,
+          "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        }
+      ]
+    },
+    "local_cuisine": {
+      "description": "Local cuisine / traditional favorites",
+      "primary_metric": "hawker_stall_count_ratio",
+      "criteria_used": [
+        "chinese_count_ratio",
+        "indian_count_ratio",
+        "hawker_stall_count_ratio",
+        "cafe_count_ratio"
+      ],
+      "areas": [
+        {
+          "rank": 1,
+          "planning_area": "NEWTON",
+          "primary_metric": "hawker_stall_count_ratio",
+          "primary_value": 0.549,
+          "criteria_used": "chinese_count_ratio, indian_count_ratio, hawker_stall_count_ratio, cafe_count_ratio",
+          "criteria_snapshot": "chinese_count_ratio=0.020; indian_count_ratio=0.020; hawker_stall_count_ratio=0.549; cafe_count_ratio=0.000",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 3535836,
+          "income_mix": {
+            "low": null,
+            "mid": null,
+            "high": null
+          },
+          "competitor_count": 51,
+          "rent_proxy_psm": 44.24,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.352,
+          "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 2,
+          "planning_area": "BUKIT MERAH",
+          "primary_metric": "hawker_stall_count_ratio",
+          "primary_value": 0.395,
+          "criteria_used": "chinese_count_ratio, indian_count_ratio, hawker_stall_count_ratio, cafe_count_ratio",
+          "criteria_snapshot": "chinese_count_ratio=0.055; indian_count_ratio=0.007; hawker_stall_count_ratio=0.395; cafe_count_ratio=0.032",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 16390155,
+          "income_mix": {
+            "low": 0.284,
+            "mid": 0.274,
+            "high": 0.442
+          },
+          "competitor_count": 403,
+          "rent_proxy_psm": 286.56,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.297,
+          "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 3,
+          "planning_area": "WOODLANDS",
+          "primary_metric": "hawker_stall_count_ratio",
+          "primary_value": 0.386,
+          "criteria_used": "chinese_count_ratio, indian_count_ratio, hawker_stall_count_ratio, cafe_count_ratio",
+          "criteria_snapshot": "chinese_count_ratio=0.029; indian_count_ratio=0.019; hawker_stall_count_ratio=0.386; cafe_count_ratio=0.010",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 21356172,
+          "income_mix": {
+            "low": 0.207,
+            "mid": 0.42,
+            "high": 0.374
+          },
+          "competitor_count": 207,
+          "rent_proxy_psm": 131.97,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.304,
+          "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 4,
+          "planning_area": "JURONG WEST",
+          "primary_metric": "hawker_stall_count_ratio",
+          "primary_value": 0.376,
+          "criteria_used": "chinese_count_ratio, indian_count_ratio, hawker_stall_count_ratio, cafe_count_ratio",
+          "criteria_snapshot": "chinese_count_ratio=0.054; indian_count_ratio=0.005; hawker_stall_count_ratio=0.376; cafe_count_ratio=0.000",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 18176818,
+          "income_mix": {
+            "low": 0.192,
+            "mid": 0.395,
+            "high": 0.413
+          },
+          "competitor_count": 186,
+          "rent_proxy_psm": 154.04,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.313,
+          "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 5,
+          "planning_area": "KALLANG",
+          "primary_metric": "hawker_stall_count_ratio",
+          "primary_value": 0.335,
+          "criteria_used": "chinese_count_ratio, indian_count_ratio, hawker_stall_count_ratio, cafe_count_ratio",
+          "criteria_snapshot": "chinese_count_ratio=0.082; indian_count_ratio=0.020; hawker_stall_count_ratio=0.335; cafe_count_ratio=0.031",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 7519794,
+          "income_mix": {
+            "low": 0.275,
+            "mid": 0.289,
+            "high": 0.436
+          },
+          "competitor_count": 451,
+          "rent_proxy_psm": 99.84,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.302,
+          "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        }
+      ]
+    },
+    "fast_food_grab_go": {
+      "description": "Fast-food / grab-and-go concept",
+      "primary_metric": "log_footfall",
+      "criteria_used": [
+        "log_footfall",
+        "weekday_ratio",
+        "fast_food_count_ratio",
+        "teens_youth_ratio",
+        "mean_price_mid"
+      ],
+      "areas": [
+        {
+          "rank": 1,
+          "planning_area": "WOODLANDS",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.877,
+          "criteria_used": "log_footfall, weekday_ratio, fast_food_count_ratio, teens_youth_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.877; weekday_ratio=0.701; fast_food_count_ratio=0.039; teens_youth_ratio=0.151; mean_price_mid=9.276",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 21356172,
+          "income_mix": {
+            "low": 0.207,
+            "mid": 0.42,
+            "high": 0.374
+          },
+          "competitor_count": 207,
+          "rent_proxy_psm": 131.97,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.304,
+          "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 2,
+          "planning_area": "TAMPINES",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.794,
+          "criteria_used": "log_footfall, weekday_ratio, fast_food_count_ratio, teens_youth_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.794; weekday_ratio=0.720; fast_food_count_ratio=0.013; teens_youth_ratio=0.119; mean_price_mid=13.105",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 19665357,
+          "income_mix": {
+            "low": 0.188,
+            "mid": 0.35,
+            "high": 0.462
+          },
+          "competitor_count": 229,
+          "rent_proxy_psm": 111.17,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.272,
+          "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 3,
+          "planning_area": "JURONG WEST",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.716,
+          "criteria_used": "log_footfall, weekday_ratio, fast_food_count_ratio, teens_youth_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.716; weekday_ratio=0.709; fast_food_count_ratio=0.032; teens_youth_ratio=0.128; mean_price_mid=10.786",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 18176818,
+          "income_mix": {
+            "low": 0.192,
+            "mid": 0.395,
+            "high": 0.413
+          },
+          "competitor_count": 186,
+          "rent_proxy_psm": 154.04,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.313,
+          "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        },
+        {
+          "rank": 4,
+          "planning_area": "DOWNTOWN CORE",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.571,
+          "criteria_used": "log_footfall, weekday_ratio, fast_food_count_ratio, teens_youth_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.571; weekday_ratio=0.722; fast_food_count_ratio=0.009; teens_youth_ratio=0.062; mean_price_mid=33.446",
+          "kmeans_cluster": 2,
+          "cluster_label": "Premium Central / Lifestyle",
+          "cluster_description": "supports higher price points, stronger ratings, and greater category diversity.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 15722045,
+          "income_mix": {
+            "low": 0.073,
+            "mid": 0.187,
+            "high": 0.74
+          },
+          "competitor_count": 758,
+          "rent_proxy_psm": 211.15,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.407,
+          "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
+        },
+        {
+          "rank": 5,
+          "planning_area": "TOA PAYOH",
+          "primary_metric": "log_footfall",
+          "primary_value": 16.393,
+          "criteria_used": "log_footfall, weekday_ratio, fast_food_count_ratio, teens_youth_ratio, mean_price_mid",
+          "criteria_snapshot": "log_footfall=16.393; weekday_ratio=0.719; fast_food_count_ratio=0.049; teens_youth_ratio=0.096; mean_price_mid=10.547",
+          "kmeans_cluster": 0,
+          "cluster_label": "Mainstream Urban / Heartland",
+          "cluster_description": "supports stronger everyday demand, denser competition, and a more mass-market, affordable environment.",
+          "cluster_assignment_method": "fit",
+          "total_footfall": 13163275,
+          "income_mix": {
+            "low": 0.251,
+            "mid": 0.322,
+            "high": 0.427
+          },
+          "competitor_count": 485,
+          "rent_proxy_psm": 115.66,
+          "primary_demographic": "Mid-Age Adults",
+          "primary_demographic_share": 0.286,
+          "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
+        }
+      ]
+    }
+  }
+}

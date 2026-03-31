@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F&B Concept Planning Area Map Updated</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: rgba(255, 250, 242, 0.96);
+      --ink: #1d2a38;
+      --muted: #6c7681;
+      --line: rgba(29, 42, 56, 0.12);
+      --accent: #b6412c;
+      --accent-deep: #7c2719;
+      --accent-soft: #f3b28b;
+      --map-fill: #d8dddf;
+      --map-stroke: #6b737c;
+      --shadow: 0 18px 40px rgba(49, 38, 23, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(182, 65, 44, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(98, 122, 95, 0.18), transparent 30%),
+        linear-gradient(135deg, #f8f3eb 0%, #ece2d4 45%, #f4efe6 100%);
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 22px;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .panel,
+    .map-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 0.95;
+      font-weight: 600;
+    }
+
+    .intro,
+    .description,
+    .note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    select {
+      width: 100%;
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 1rem;
+    }
+
+    .metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(182, 65, 44, 0.08);
+      color: var(--accent-deep);
+      font-size: 0.92rem;
+    }
+
+    .metric-pill strong {
+      font-weight: 700;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(182, 65, 44, 0.28);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .rank {
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .area {
+      margin: 2px 0 0;
+      font-size: 1.15rem;
+      line-height: 1.1;
+    }
+
+    .value {
+      font-size: 0.95rem;
+      color: var(--accent-deep);
+      white-space: nowrap;
+    }
+
+    .snapshot {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .cluster-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124, 39, 25, 0.08);
+      color: var(--accent-deep);
+      font-size: 0.84rem;
+      letter-spacing: 0.04em;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 760px;
+      border-radius: 30px;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 760px;
+    }
+
+    .legend {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 500;
+      width: 220px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 250, 242, 0.94);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+    }
+
+    .legend h2 {
+      margin: 0 0 10px;
+      font-size: 0.88rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 5px;
+      border: 1px solid rgba(29, 42, 56, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .leaflet-container {
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(180deg, #f8f4ed 0%, #e4dccf 100%);
+    }
+
+    .tooltip-title {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .tooltip-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 980px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .map-card,
+      #map {
+        min-height: 68vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <p class="eyebrow">F&B Location Explorer Updated</p>
+      <h1>Planning Areas That Fit Each Concept</h1>
+      <p class="intro">
+        Pick a concept and the map will highlight the top 5 shortlisted planning areas from your Pareto analysis.
+      </p>
+
+      <div>
+        <label for="conceptSelect">Concept</label>
+        <select id="conceptSelect"></select>
+      </div>
+
+      <p id="conceptDescription" class="description"></p>
+      <div id="primaryMetric" class="metric-pill"></div>
+
+      <div id="topList" class="list"></div>
+
+      <p class="note">
+        Serve this folder with a local web server such as <code>python -m http.server</code> so the browser can load the local JSON and GeoJSON files.
+      </p>
+    </section>
+
+    <section class="map-card">
+      <div id="map" aria-label="Singapore planning area map"></div>
+      <div class="legend">
+        <h2>Map Legend</h2>
+        <div class="legend-row"><span class="swatch" style="background:#f3b28b;"></span><span>Top 5 shortlisted area</span></div>
+        <div class="legend-row"><span class="swatch" style="background:#b6412c;"></span><span>Top ranked shortlisted area</span></div>
+        <div class="legend-row"><span class="swatch" style="background:#d8dddf;"></span><span>Other planning areas</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script>
+    const conceptSelect = document.getElementById("conceptSelect");
+    const conceptDescription = document.getElementById("conceptDescription");
+    const primaryMetric = document.getElementById("primaryMetric");
+    const topList = document.getElementById("topList");
+
+    const rankColors = {
+      1: "#b6412c",
+      2: "#c75b39",
+      3: "#d87548",
+      4: "#e79262",
+      5: "#f3b28b"
+    };
+
+    const map = L.map("map", {
+      zoomControl: true,
+      minZoom: 10,
+      maxZoom: 15
+    }).setView([1.3521, 103.8198], 11);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    let geoJsonLayer;
+    let geoJsonData;
+    let shortlistData;
+
+    function titleCase(value) {
+      return value.replaceAll("_", " ").replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
+    function getSelectedConcept() {
+      return shortlistData.concepts[conceptSelect.value];
+    }
+
+    function getAreaMap(concept) {
+      return new Map(concept.areas.map((entry) => [entry.planning_area, entry]));
+    }
+
+    function styleFeature(feature) {
+      const concept = getSelectedConcept();
+      const areaMap = getAreaMap(concept);
+      const areaName = feature.properties.PLN_AREA_N;
+      const match = areaMap.get(areaName);
+
+      if (!match) {
+        return {
+          color: "#6b737c",
+          weight: 1,
+          fillColor: "#d8dddf",
+          fillOpacity: 0.22
+        };
+      }
+
+      return {
+        color: "#7c2719",
+        weight: match.rank === 1 ? 3 : 2,
+        fillColor: rankColors[match.rank] || "#f3b28b",
+        fillOpacity: 0.72
+      };
+    }
+
+    function bindFeature(layer, feature) {
+      const areaName = feature.properties.PLN_AREA_N;
+      const areaMap = getAreaMap(getSelectedConcept());
+      const match = areaMap.get(areaName);
+      const metricLine = match
+        ? `Rank ${match.rank} recommendation. ${match.cluster_label}. ${match.primary_metric}: ${match.primary_value}`
+        : "Not in the current top 5 shortlist.";
+
+      layer.bindTooltip(
+        `<div class="tooltip-title">${areaName}</div><p class="tooltip-copy">${metricLine}</p>`,
+        { sticky: true }
+      );
+    }
+
+    function redrawMap() {
+      if (geoJsonLayer) {
+        geoJsonLayer.remove();
+      }
+
+      geoJsonLayer = L.geoJSON(geoJsonData, {
+        style: styleFeature,
+        onEachFeature: (feature, layer) => bindFeature(layer, feature)
+      }).addTo(map);
+
+      const concept = getSelectedConcept();
+      const areaMap = getAreaMap(concept);
+      const highlightedLayers = [];
+      geoJsonLayer.eachLayer((layer) => {
+        const areaName = layer.feature.properties.PLN_AREA_N;
+        if (areaMap.has(areaName)) {
+          highlightedLayers.push(layer);
+        }
+      });
+
+      if (highlightedLayers.length > 0) {
+        const featureGroup = L.featureGroup(highlightedLayers);
+        map.fitBounds(featureGroup.getBounds().pad(0.18));
+      }
+    }
+
+    function renderSidebar() {
+      const conceptKey = conceptSelect.value;
+      const concept = getSelectedConcept();
+      conceptDescription.textContent = concept.description;
+      primaryMetric.innerHTML = `<strong>Primary metric</strong> ${concept.primary_metric}`;
+
+      topList.innerHTML = "";
+      concept.areas.forEach((entry) => {
+        const incomeMix = `Low ${Math.round((entry.income_mix.low ?? 0) * 100)}% · Mid ${Math.round((entry.income_mix.mid ?? 0) * 100)}% · High ${Math.round((entry.income_mix.high ?? 0) * 100)}%`;
+        const footfall = entry.total_footfall?.toLocaleString() ?? "N/A";
+        const competitors = entry.competitor_count?.toLocaleString() ?? "N/A";
+        const rent = entry.rent_proxy_psm != null ? `$${entry.rent_proxy_psm.toFixed(2)} / sqm` : "N/A";
+        const primaryDemographic = entry.primary_demographic
+          ? `${entry.primary_demographic} (${Math.round((entry.primary_demographic_share ?? 0) * 100)}%)`
+          : "N/A";
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-head">
+            <div>
+              <div class="rank">Rank ${entry.rank}</div>
+              <h2 class="area">${entry.planning_area}</h2>
+            </div>
+            <div class="value">${entry.primary_metric}: ${entry.primary_value}</div>
+          </div>
+          <div class="cluster-chip">Cluster ${entry.kmeans_cluster}: ${entry.cluster_label}</div>
+          <p class="snapshot"><strong>Cluster fit:</strong> ${entry.cluster_description}</p>
+          <p class="snapshot"><strong>Recommendation:</strong> ${entry.recommendation_summary}</p>
+          <p class="snapshot"><strong>Total footfall:</strong> ${footfall}</p>
+          <p class="snapshot"><strong>Income mix:</strong> ${incomeMix}</p>
+          <p class="snapshot"><strong>Competitors:</strong> ${competitors}</p>
+          <p class="snapshot"><strong>Rent approximation:</strong> ${rent}</p>
+          <p class="snapshot"><strong>Primary demographic:</strong> ${primaryDemographic}</p>
+        `;
+        topList.appendChild(card);
+      });
+
+      redrawMap();
+      document.title = `${titleCase(conceptKey)} Map`;
+    }
+
+    function populateConcepts() {
+      Object.entries(shortlistData.concepts).forEach(([conceptKey, concept]) => {
+        const option = document.createElement("option");
+        option.value = conceptKey;
+        option.textContent = concept.description;
+        conceptSelect.appendChild(option);
+      });
+      conceptSelect.addEventListener("change", renderSidebar);
+    }
+
+    async function init() {
+      const [shortlistResponse, geoJsonResponse] = await Promise.all([
+        fetch("./pareto_shortlists_updated.json"),
+        fetch("./SubzoneBoundary.geojson")
+      ]);
+
+      shortlistData = await shortlistResponse.json();
+      geoJsonData = await geoJsonResponse.json();
+
+      populateConcepts();
+      renderSidebar();
+    }
+
+    init().catch((error) => {
+      topList.innerHTML = `<article class="card"><p class="snapshot">Could not load the map data. ${error.message}</p></article>`;
+      console.error(error);
+    });
+  </script>
+</body>
+</html>
