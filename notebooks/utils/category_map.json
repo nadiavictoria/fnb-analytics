@@ -1,0 +1,113 @@
+{
+  "hawker stall": "hawker",
+  "hawker center": "hawker",
+
+  "restaurant": "restaurant",
+  "self service restaurant": "restaurant",
+  "fusion restaurant": "restaurant",
+  "self-service restaurant": "restaurant",
+
+  "japanese": "japanese",
+  "authentic japanese": "japanese",
+  "japanese restaurant": "japanese",
+  "modern izakaya restaurant": "japanese",
+  "izakaya": "japanese",
+  "yakitori": "japanese",
+  "ramen": "japanese",
+  "sushi": "japanese",
+  "sushi takeaway": "japanese",
+  "gyudon restaurant": "japanese",
+  "japanese curry": "japanese",
+  "unagi restaurant": "japanese",
+  "tempura": "japanese",
+  "teppanyaki": "japanese",
+  "shabu shabu": "japanese",
+  "takoyaki restaurant": "japanese",
+
+  "chinese": "chinese",
+  "chinese noodles": "chinese",
+  "cantonese": "chinese",
+  "shanghainese": "chinese",
+  "hunan restaurant": "chinese",
+  "dim sum": "chinese",
+
+  "indian": "indian",
+  "indian muslim restaurant": "indian",
+  "south indian": "indian",
+  "modern indian restaurant": "indian",
+  "biryani": "indian",
+  "gujarati": "indian",
+  "chettinad": "indian",
+  "keralan": "indian",
+
+  "italian": "italian",
+  "italian restaurant": "italian",
+  "pizza": "italian",
+  "pasta": "italian",
+
+  "korean": "korean",
+  "korean bbq": "korean",
+
+  "thai": "thai",
+  "vietnamese": "vietnamese",
+  "malaysian": "malaysian",
+  "indonesian": "indonesian",
+  "filipino": "filipino",
+  "singaporean": "singaporean",
+
+  "western": "western",
+  "american": "western",
+  "new american": "western",
+  "modern british": "western",
+
+  "cafe": "cafe",
+  "coffee shop": "cafe",
+  "coffee stand": "cafe",
+  "internet cafe": "cafe",
+  "tea house": "cafe",
+  "tea and coffee shop": "cafe",
+
+  "dessert": "dessert",
+  "dessert shop": "dessert",
+  "ice cream": "dessert",
+  "cake shop": "dessert",
+  "patisserie": "dessert",
+  "fro-yo": "dessert",
+
+  "bakery": "bakery",
+  "chinese bakery": "bakery",
+
+  "halal": "halal",
+
+  "fast food": "fast_food",
+  "takeaways": "fast_food",
+  "pizza takeout": "fast_food",
+  "chinese takeout": "fast_food",
+  "indian takeout": "fast_food",
+
+  "bar": "bar",
+  "sports bar": "bar",
+  "wine bar": "bar",
+  "pub": "bar",
+  "cocktail bar": "bar",
+  "beer garden": "bar",
+  "lounge bar": "bar",
+  "night club": "bar",
+
+  "seafood": "seafood",
+  "seafood restaurant": "seafood",
+
+  "vegetarian": "vegetarian",
+  "vegan": "vegetarian",
+  "health food": "vegetarian",
+
+  "shopping mall": "mall",
+  "food court": "food_court",
+  "mrt/lrt station": "transport",
+  "train station": "transport",
+
+  "hotel": "hotel",
+  "resort hotel": "hotel",
+
+  "unknown": "unknown"
+}

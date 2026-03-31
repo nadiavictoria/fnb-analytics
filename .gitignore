@@ -1,2 +1,3 @@
 /venv
-/project/restaurant_index_agent/dataset
+.env
+/dataset
