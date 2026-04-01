@@ -50,7 +50,6 @@ def build_analysis_df(df: pd.DataFrame) -> pd.DataFrame:
     analysis_df = df.copy()
 
     analysis_df["log_footfall"] = np.log1p(analysis_df["total_footfall"])
-    analysis_df["inflow_ratio"] = analysis_df["total_inflow"] / analysis_df["total_footfall"]
 
     total_day_volume = analysis_df["weekday_volume"] + analysis_df["weekend_volume"]
     analysis_df["weekday_ratio"] = analysis_df["weekday_volume"] / total_day_volume

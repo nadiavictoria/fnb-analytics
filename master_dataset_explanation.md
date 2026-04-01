@@ -45,3 +45,13 @@
 | income_missing | integer (0/1) | Indicator if income data is missing (1 = missing) |
 | demo_missing | integer (0/1) | Indicator if demographic data is missing |
 | rent_missing | integer (0/1) | Indicator if rent data is missing |
+| population_total | float | Total resident population (sum of all age groups) |
+| working_age_pct | float | Percentage of population aged approximately 20–64 (young_adults + mid_age_adults) |
+| pct_high_income | float | Percentage of households classified as high-income |
+| competitor_per_1k | float | Number of Google Maps F&B competitors per 1,000 residents |
+| inflow_ratio | float | Ratio of total_inflow to total_footfall, positive values indicate net inflow (commercial/hub areas), negative indicate net outflow (residential areas)|
+| lunch_share | float | Percentage of total daily footfall occurring during the lunch time band|
+| evening_share | float | Percentage of total daily footfall occurring during the evening time band|
+| weekend_share | float | Percentage of total weekly footfall occurring on weekends and public holidays|
+| sfa_active_count | integer | Number of active government-licensed F&B establishments, broader than competitor_count as it includes all licensed outlets including unlisted hawker stalls |
+| sfa_per_1k | float | Active SFA-licensed F&B establishments per 1,000 residents |
