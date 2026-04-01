@@ -463,6 +463,37 @@
         conceptSelect.appendChild(option);
       });
       conceptSelect.addEventListener("change", renderSidebar);
+      
+      // conceptSelect.addEventListener("change", async () => {
+      //   // Re Render Sidebar
+      //   renderSidebar();
+
+      //   // Get selected concept
+      //   const concept = conceptSelect.value;
+
+      //   try {
+      //     // Fetch from the RAG's API
+      //     const res = await fetch("http://localhost:8000/recommend", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json"
+      //       },
+      //       body: JSON.stringify({ concept })
+      //     });
+
+      //     const data = await res.json();
+
+      //     // Log response
+      //     console.log("Backend response:", data);
+          
+      //     // content description
+      //     conceptDescription.textContent += ` | AI Insight: ${data.message}`;
+
+      //   } catch (error) {
+      //     console.error("API error:", error);
+      //   }
+      // });
+
     }
 
     async function init() {
