@@ -8,14 +8,38 @@ The app combines:
 - Pareto analysis to shortlist planning areas for different F&B concepts
 - A small web UI to explore the top 5 shortlisted planning areas for each concept on a map
 
-## Files
+## Project Structure
 
-- `clustering_and_pareto_processing.ipynb`: notebook where the clustering and Pareto logic was developed
-- `build_pareto_map_data_updated.py`: Python script that recreates the analysis outputs needed by the UI
-- `pareto_shortlists_updated.json`: generated JSON used by the HTML page
-- `pareto_map_updated.html`: map UI
-- `master_dataset.csv`: planning-area feature dataset used by the script
-- `SubzoneBoundary.geojson`: planning-area geometry used for the map
+```
+fnb-analytics/
+├── master_dataset_builder.ipynb          # builds master_dataset.csv from raw sources
+├── master_dataset.csv                    # planning-area feature dataset
+├── master_dataset_explanation.md         # column-level documentation for the dataset
+├── clustering_and_pareto_processing.ipynb# clustering and Pareto analysis notebook
+├── build_pareto_map_data_updated.py      # script that regenerates JSON outputs for the UI
+├── pareto_shortlists_updated.json        # generated — consumed by pareto_map_updated.html
+├── pareto_shortlists_updated.csv         # generated — flat CSV version of the shortlists
+├── pareto_map_updated.html               # interactive map UI
+├── requirements.txt                      # Python dependencies
+├── dataset/
+│   ├── Places API Results/               # competitor CSV files (one per planning area)
+│   ├── LTA Footfall Traffic Datasets/    # LTA origin-destination footfall data
+│   ├── SFA Eating Establishment Dataset/ # SFA licensed establishment data
+│   ├── REALIS data/                      # rental transaction data
+│   ├── Singstat Demographic and Income Datasets/
+│   ├── Subzone and Locations Datasets/
+│   │   └── SubzoneBoundary.geojson       # planning-area geometry for the map
+│   └── 03_cleaned/                       # intermediate cleaned outputs
+└── project/
+    └── restaurant_index_agent/           # Neo4j-based competitor indexing agent
+        ├── 01_data_preprocessing.ipynb
+        ├── 02_build_graph_db.ipynb
+        ├── competitor_index_agent.py
+        ├── neo4j_queries.py
+        ├── category_map.json
+        ├── deduplicated_with_mrt.csv
+        └── README.md
+```
 
 ## Cluster Archetypes
 
