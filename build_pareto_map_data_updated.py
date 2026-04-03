@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
+import joblib
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -14,6 +16,23 @@ ROOT = Path(__file__).resolve().parent
 MASTER_DATASET = ROOT / "master_dataset.csv"
 OUTPUT_JSON = ROOT / "pareto_shortlists_updated.json"
 OUTPUT_CSV = ROOT / "pareto_shortlists_updated.csv"
+CLUSTER_CACHE = ROOT / ".cluster_cache.joblib"
+
+# Columns actually consumed by the pipeline — avoids loading unused fields
+MASTER_DATASET_COLS = [
+    "PLANNING_AREA",
+    "total_footfall",
+    "weekday_volume", "weekend_volume",
+    "morning", "lunch", "evening", "afternoon", "other",
+    "low_income", "mid_income", "high_income",
+    "children", "teens_youth", "young_adults", "mid_age_adults", "older_adults", "seniors",
+    "competitor_count", "unique_category_count",
+    "mean_rating", "mean_price_mid",
+    "hawker_stall_count", "restaurant_count",
+    "chinese_count", "japanese_count", "indian_count", "cafe_count", "thai_count", "fast_food_count",
+    "rent_proxy_psm",
+    "inflow_ratio",
+]
 
 SPECIAL_CASE_AREAS = {
     "CENTRAL WATER CATCHMENT",
@@ -165,19 +184,11 @@ def build_area_context_lookup(df: pd.DataFrame, analysis_df: pd.DataFrame) -> di
 
 
 def pareto_efficient_mask(values: np.ndarray) -> np.ndarray:
-    n = values.shape[0]
-    is_efficient = np.ones(n, dtype=bool)
-
-    for i in range(n):
-        if not is_efficient[i]:
-            continue
-
-        dominates_i = np.all(values >= values[i], axis=1) & np.any(values > values[i], axis=1)
-        dominates_i[i] = False
-        if np.any(dominates_i):
-            is_efficient[i] = False
-
-    return is_efficient
+    v = values[:, np.newaxis, :]       # (n, 1, d)
+    u = values[np.newaxis, :, :]       # (1, n, d)
+    dominated = np.all(u >= v, axis=2) & np.any(u > v, axis=2)
+    np.fill_diagonal(dominated, False)
+    return ~dominated.any(axis=1)
 
 
 def build_clustering_df(analysis_df: pd.DataFrame) -> pd.DataFrame:
@@ -208,6 +219,26 @@ def build_clustering_df(analysis_df: pd.DataFrame) -> pd.DataFrame:
     return analysis_df[analysis_cols].copy()
 
 
+def _dataset_hash() -> str:
+    """Return a SHA-256 hex digest of master_dataset.csv for cache invalidation."""
+    h = hashlib.sha256()
+    h.update(MASTER_DATASET.read_bytes())
+    return h.hexdigest()
+
+
+def _fit_clustering_models(x_train: pd.DataFrame) -> tuple[SimpleImputer, StandardScaler, KMeans]:
+    imputer = SimpleImputer(strategy="median")
+    x_train_imputed = pd.DataFrame(imputer.fit_transform(x_train), columns=x_train.columns, index=x_train.index)
+
+    scaler = StandardScaler()
+    x_train_scaled = scaler.fit_transform(x_train_imputed)
+
+    kmeans = KMeans(n_clusters=3, random_state=42, n_init=20)
+    kmeans.fit(x_train_scaled)
+
+    return imputer, scaler, kmeans
+
+
 def build_cluster_lookup(analysis_df: pd.DataFrame) -> dict[str, dict[str, object]]:
     clustering_df = build_clustering_df(analysis_df)
 
@@ -218,16 +249,34 @@ def build_cluster_lookup(analysis_df: pd.DataFrame) -> dict[str, dict[str, objec
     x_train = train_df.drop(columns=["PLANNING_AREA"]).copy()
     x_all = pred_df.drop(columns=["PLANNING_AREA"]).copy()
 
-    imputer = SimpleImputer(strategy="median")
-    x_train_imputed = pd.DataFrame(imputer.fit_transform(x_train), columns=x_train.columns, index=x_train.index)
+    current_hash = _dataset_hash()
+
+    if CLUSTER_CACHE.exists():
+        cached = joblib.load(CLUSTER_CACHE)
+        if cached.get("dataset_hash") == current_hash:
+            imputer = cached["imputer"]
+            scaler = cached["scaler"]
+            kmeans = cached["kmeans"]
+        else:
+            imputer, scaler, kmeans = _fit_clustering_models(x_train)
+            joblib.dump(
+                {"dataset_hash": current_hash, "imputer": imputer, "scaler": scaler, "kmeans": kmeans},
+                CLUSTER_CACHE,
+            )
+    else:
+        imputer, scaler, kmeans = _fit_clustering_models(x_train)
+        joblib.dump(
+            {"dataset_hash": current_hash, "imputer": imputer, "scaler": scaler, "kmeans": kmeans},
+            CLUSTER_CACHE,
+        )
+
+    x_train_imputed = pd.DataFrame(imputer.transform(x_train), columns=x_train.columns, index=x_train.index)
     x_all_imputed = pd.DataFrame(imputer.transform(x_all), columns=x_all.columns, index=x_all.index)
 
-    scaler = StandardScaler()
-    x_train_scaled = scaler.fit_transform(x_train_imputed)
+    x_train_scaled = scaler.transform(x_train_imputed)
     x_all_scaled = scaler.transform(x_all_imputed)
 
-    kmeans = KMeans(n_clusters=3, random_state=42, n_init=20)
-    train_labels = kmeans.fit_predict(x_train_scaled)
+    train_labels = kmeans.predict(x_train_scaled)
     all_labels = kmeans.predict(x_all_scaled)
 
     train_lookup = dict(zip(train_names, train_labels))
@@ -347,7 +396,7 @@ def main() -> None:
         "fast_food_grab_go": "log_footfall",
     }
 
-    df = pd.read_csv(MASTER_DATASET)
+    df = pd.read_csv(MASTER_DATASET, usecols=MASTER_DATASET_COLS)
     analysis_df = build_analysis_df(df)
     cluster_lookup = build_cluster_lookup(analysis_df)
     area_context_lookup = build_area_context_lookup(df, analysis_df)

@@ -2,3 +2,4 @@
 /project/restaurant_index_agent/dataset
 /dataset
 __pycache__
+*.joblib
