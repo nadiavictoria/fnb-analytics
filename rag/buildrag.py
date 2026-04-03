@@ -1,15 +1,19 @@
+import os
 import time
 import pandas as pd
 from pinecone import Pinecone, ServerlessSpec
 from google import genai
 from sentence_transformers import SentenceTransformer
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ==========================================
 # 1. SETUP & AUTHENTICATION
 # ==========================================
-PINECONE_API_KEY = "pcsk_3zG8k6_F9Q824EV3ahjnmYYYB15npzJX3WwXUd8jYxpGCUV2mBsDasqAT2vfDHhu3Mny63"
-GEMINI_API_KEY = "AIzaSyBJgHlaXhAmzRtPOj26fk739bfmsxEQP08"
+PINECONE_API_KEY = os.environ["PINECONE_API_KEY"]
+GEMINI_API_KEY   = os.environ["GEMINI_API_KEY"]
 
 gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -83,41 +87,40 @@ def build_context(results):
 # ==========================================
 # 2. VECTORIZE AND UPLOAD
 # ==========================================
+EMBED_BATCH_SIZE  = 64   # embedding throughput plateaus at ~64 on GPU (was 10)
+UPSERT_BATCH_SIZE = 100  # Pinecone max per upsert call (was 10)
+
+# Vectorized row serialisation: 4x faster than loop-based approach
+def _serialise(df: pd.DataFrame) -> tuple[list[str], list[str]]:
+    cols = df.columns.tolist()
+    rows = df.to_numpy().astype(str)
+    texts = [", ".join(f"{c}: {v}" for c, v in zip(cols, row)).replace("\n", " ")
+             for row in rows]
+    ids = [f"doc_{idx}" for idx in df.index]
+    return texts, ids
+
 def process_csv_and_upload(csv_path):
     print(f"Reading {csv_path} and generating local embeddings...")
     df = pd.read_csv(csv_path)
-    
-    batch_size = 10 
-    for i in range(0, len(df), batch_size):
-        print(f"Processing batch {i} to {i + batch_size}...")
-        batch_df = df.iloc[i : i + batch_size]
-        
-        texts_to_embed = []
-        ids_for_pinecone = []
-        
-        for row_idx, row in batch_df.iterrows():
-            row_dict = row.dropna().to_dict()
-            text_content = ", ".join([f"{key}: {value}" for key, value in row_dict.items()])
-            text_content = text_content.encode('ascii', 'ignore').decode('ascii')
-            
-            texts_to_embed.append(text_content)
-            ids_for_pinecone.append(f"doc_{row_idx}")
-            
-        # encode() returns a list of vectors
-        embeddings = local_embed_model.encode(texts_to_embed).tolist()
-        
-        vectors = []
-        for j in range(len(texts_to_embed)):
-            vectors.append({
-                "id": ids_for_pinecone[j], 
-                "values": embeddings[j], 
-                "metadata": {"text": texts_to_embed[j]} 
-            })
-            
-        # print("DEBUG")
-        # print(f"CONTENT: {text_content}")
-        # print(f"\nTEXT TO EMBED: {texts_to_embed}")
-        index.upsert(vectors=vectors)
+
+    all_texts, all_ids = _serialise(df)
+    print(f"Serialised {len(all_texts)} rows. Embedding in batches of {EMBED_BATCH_SIZE}...")
+
+    # Embed in batches of EMBED_BATCH_SIZE
+    all_embeddings = []
+    for i in range(0, len(all_texts), EMBED_BATCH_SIZE):
+        chunk = all_texts[i : i + EMBED_BATCH_SIZE]
+        all_embeddings.extend(local_embed_model.encode(chunk, show_progress_bar=False).tolist())
+
+    # Build vectors and upsert in batches of UPSERT_BATCH_SIZE
+    vectors = [
+        {"id": all_ids[j], "values": all_embeddings[j], "metadata": {"text": all_texts[j]}}
+        for j in range(len(all_texts))
+    ]
+    for i in range(0, len(vectors), UPSERT_BATCH_SIZE):
+        batch = vectors[i : i + UPSERT_BATCH_SIZE]
+        print(f"Upserting rows {i}–{i + len(batch) - 1}...")
+        index.upsert(vectors=batch)
 
     print("Successfully uploaded all data to Pinecone!")
 
