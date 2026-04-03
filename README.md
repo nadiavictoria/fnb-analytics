@@ -17,8 +17,8 @@ fnb-analytics/
 ├── master_dataset_explanation.md         # column-level documentation for the dataset
 ├── clustering_and_pareto_processing.ipynb# clustering and Pareto analysis notebook
 ├── build_pareto_map_data_updated.py      # script that regenerates JSON outputs for the UI
-├── pareto_shortlists_updated.json        # generated — consumed by pareto_map_updated.html
-├── pareto_shortlists_updated.csv         # generated — flat CSV version of the shortlists
+├── pareto_shortlists_updated.json        # consumed by pareto_map_updated.html
+├── pareto_shortlists_updated.csv         # flat CSV version of the shortlists
 ├── pareto_map_updated.html               # interactive map UI
 ├── requirements.txt                      # Python dependencies
 ├── dataset/

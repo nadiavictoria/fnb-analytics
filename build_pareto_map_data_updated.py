@@ -18,7 +18,7 @@ OUTPUT_JSON = ROOT / "pareto_shortlists_updated.json"
 OUTPUT_CSV = ROOT / "pareto_shortlists_updated.csv"
 CLUSTER_CACHE = ROOT / ".cluster_cache.joblib"
 
-# Columns actually consumed by the pipeline — avoids loading unused fields
+# Columns actually consumed by the pipeline, avoids loading unused fields
 MASTER_DATASET_COLS = [
     "PLANNING_AREA",
     "total_footfall",
