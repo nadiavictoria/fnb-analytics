@@ -6,6 +6,7 @@ import CompetitorBarChart from './CompetitorBarChart';
 import RentProxyBarChart from './RentProxyBarChart';
 import IncomeMixPieChart from './IncomeMixPieChart';
 import './Dashboard.css';
+import CriteriaSummary from './CriteriaSummary';
 
 // Helper to get unique concepts from the data
 const getConcepts = (conceptsObj) => {
@@ -126,7 +127,7 @@ const Dashboard = () => {
         alignItems: 'flex-start',
       }}
     >
-      <div style={{ flex: 1, minWidth: 320, maxWidth: 600, width: '100%', padding: 10 }}>
+      <div style={{ flex: 1, minWidth: 320, maxWidth: 600, width: '100%', padding: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
         <h1>MakanMetrics</h1>
         <div className="row mb-3">
           <div className="col-md-7 mb-2 mb-md-0">
@@ -156,6 +157,9 @@ const Dashboard = () => {
         </div>
         <div style={{ textAlign: 'left' }}>
           {renderAreaDetails()}
+        </div>
+        <div style={{ marginTop: 'auto', marginBottom: 8 }}>
+          <CriteriaSummary areaDetails={areaDetails} />
         </div>
       </div>
       <div
