@@ -1,0 +1,58 @@
+/* CriteriaSummary card styles */
+.criteria-summary {
+  background: #f5f7fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 16px 18px 12px 18px;
+  margin-top: 18px;
+  font-size: 1em;
+  color: #222;
+  min-height: 110px;
+  max-width: 100%;
+}
+.criteria-summary h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #2a3b4c;
+}
+/* Dashboard responsive grid styles */
+.dashboard-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+  width: 100%;
+}
+.dashboard-chart-cell {
+  height: 220px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 900px) {
+  .dashboard-charts-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+  }
+  .dashboard-chart-cell {
+    height: 220px;
+    min-width: 0;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard-charts-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .dashboard-chart-cell {
+    height: 180px;
+    padding: 0 2px;
+  }
+}
