@@ -10,6 +10,11 @@ const distDataDir = path.join(projectRoot, 'dist', 'data')
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/ask': 'http://localhost:8000',
+    },
+  },
   plugins: [
     react(),
     {
