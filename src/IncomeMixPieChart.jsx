@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,7 +9,9 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const IncomeMixPieChart = ({ incomeMix }) => {
-  if (!incomeMix) return <div>No data</div>;
+  if (!incomeMix || [incomeMix.low, incomeMix.mid, incomeMix.high].every(v => v == null)) {
+    return <div style={{ textAlign: 'center', color: '#999', fontSize: '0.9em' }}>Income Mix<br/>No data available</div>;
+  }
   const data = {
     labels: ['Low', 'Mid', 'High'],
     datasets: [
@@ -32,12 +33,17 @@ const IncomeMixPieChart = ({ incomeMix }) => {
   };
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
       title: { display: true, text: 'Income Mix' },
     },
   };
-  return <Pie data={data} options={options} />;
+  return (
+    <div style={{ width: '100%', height: 200 }}>
+      <Pie data={data} options={options} />
+    </div>
+  );
 };
 
 export default IncomeMixPieChart;

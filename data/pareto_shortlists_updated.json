@@ -397,7 +397,7 @@
           "primary_metric_display": {
             "key": "mean_price_mid",
             "label": "Typical price level",
-            "value": 50.666666666666664,
+            "value": 50.66666666666666,
             "formatted_value": "50.67",
             "unit": "SGD"
           },
@@ -411,7 +411,7 @@
             {
               "key": "mean_price_mid",
               "label": "Typical price level",
-              "value": 50.666666666666664,
+              "value": 50.66666666666666,
               "formatted_value": "50.67",
               "unit": "SGD"
             },
