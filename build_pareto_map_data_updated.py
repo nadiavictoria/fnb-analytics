@@ -64,6 +64,27 @@ CLUSTER_METADATA = {
     },
 }
 
+METRIC_DISPLAY_MAP = {
+    "log_footfall": {"label": "Total footfall", "source": "total_footfall"},
+    "low_income_ratio": {"label": "Lower-income households", "source": "income_mix.low"},
+    "mid_income_ratio": {"label": "Middle-income households", "source": "income_mix.mid"},
+    "high_income_ratio": {"label": "Higher-income households", "source": "income_mix.high"},
+    "hawker_stall_count_ratio": {"label": "Hawker presence", "source": None},
+    "mean_price_mid": {"label": "Typical price level", "source": None},
+    "unique_category_count": {"label": "Category diversity", "source": None},
+    "mean_rating": {"label": "Average rating", "source": None},
+    "children_ratio": {"label": "Families with children", "source": None},
+    "mid_age_adults_ratio": {"label": "Mid-age adults", "source": None},
+    "weekend_ratio": {"label": "Weekend activity share", "source": None},
+    "weekday_ratio": {"label": "Weekday activity share", "source": None},
+    "log_competitor_count": {"label": "Nearby competitors", "source": "competitor_count"},
+    "chinese_count_ratio": {"label": "Chinese cuisine presence", "source": None},
+    "indian_count_ratio": {"label": "Indian cuisine presence", "source": None},
+    "cafe_count_ratio": {"label": "Cafe presence", "source": None},
+    "fast_food_count_ratio": {"label": "Fast-food presence", "source": None},
+    "teens_youth_ratio": {"label": "Teens and youth presence", "source": None},
+}
+
 
 def build_analysis_df(df: pd.DataFrame) -> pd.DataFrame:
     analysis_df = df.copy()
@@ -181,6 +202,78 @@ def build_area_context_lookup(df: pd.DataFrame, analysis_df: pd.DataFrame) -> di
             else round(float(record["primary_demographic_share"]), 3),
         }
     return lookup
+
+
+def get_metric_display_meta(metric_key: str) -> dict[str, object]:
+    default_label = metric_key.replace("_", " ").title()
+    return METRIC_DISPLAY_MAP.get(metric_key, {"label": default_label, "source": None})
+
+
+def resolve_nested_value(data: dict[str, object], path: str):
+    current = data
+    for part in path.split("."):
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    return current
+
+
+def resolve_metric_display_value(metric_key: str, area_record: dict[str, object], area_context: dict[str, object]):
+    source = get_metric_display_meta(metric_key)["source"]
+    if source:
+        return resolve_nested_value(area_context, source)
+    return area_record.get(metric_key)
+
+
+def metric_display_unit(metric_key: str) -> str | None:
+    if metric_key == "log_footfall":
+        return "visits"
+    if metric_key == "log_competitor_count":
+        return "competitors"
+    if metric_key.endswith("_ratio"):
+        return "%"
+    if metric_key.endswith("_count") or metric_key == "unique_category_count":
+        return "count"
+    if "rating" in metric_key:
+        return "/5"
+    if "price" in metric_key:
+        return "SGD"
+    return None
+
+
+def format_metric_value(metric_key: str, value) -> str | None:
+    if value is None or pd.isna(value):
+        return "Data unavailable"
+    numeric_value = float(value)
+    if metric_key.endswith("_ratio"):
+        return f"{numeric_value * 100:.1f}%"
+    if metric_key == "log_footfall":
+        return f"{int(round(numeric_value)):,}"
+    if metric_key == "log_competitor_count":
+        return f"{int(round(numeric_value))}"
+    if metric_key.endswith("_count") or metric_key == "unique_category_count":
+        return f"{int(round(numeric_value))}"
+    if "rating" in metric_key:
+        return f"{numeric_value:.2f}/5"
+    if "price" in metric_key:
+        return f"{numeric_value:.2f}"
+    return f"{numeric_value:.3f}"
+
+
+def build_metric_display(metric_key: str, area_record: dict[str, object], area_context: dict[str, object]) -> dict[str, object]:
+    meta = get_metric_display_meta(metric_key)
+    value = resolve_metric_display_value(metric_key, area_record, area_context)
+    if value is not None and not pd.isna(value):
+        value = int(value) if isinstance(value, (int, np.integer)) else float(value)
+    else:
+        value = None
+    return {
+        "key": metric_key,
+        "label": meta["label"],
+        "value": value,
+        "formatted_value": format_metric_value(metric_key, value),
+        "unit": metric_display_unit(metric_key),
+    }
 
 
 def pareto_efficient_mask(values: np.ndarray) -> np.ndarray:
@@ -335,6 +428,36 @@ def build_recommendation_summary(concept_description: str, cluster_label: str, c
     )
 
 
+def build_area_payload(
+    area_record: dict[str, object],
+    rank: int,
+    concept_cfg: dict[str, object],
+    cluster_info: dict[str, object],
+    area_context: dict[str, object],
+) -> dict[str, object]:
+    criteria_used = list(area_record["criteria_used"])
+    return {
+        "rank": rank,
+        "planning_area": area_record["PLANNING_AREA"],
+        "primary_metric": area_record["primary_metric"],
+        "primary_value": float(area_record["primary_value"]),
+        "primary_metric_display": build_metric_display(area_record["primary_metric"], area_record, area_context),
+        "criteria_used": criteria_used,
+        "criteria_display": [
+            build_metric_display(metric_key, area_record, area_context)
+            for metric_key in criteria_used
+        ],
+        "criteria_snapshot": area_record["criteria_snapshot"],
+        **cluster_info,
+        **area_context,
+        "recommendation_summary": build_recommendation_summary(
+            concept_cfg["description"],
+            cluster_info["cluster_label"],
+            cluster_info["cluster_description"],
+        ),
+    }
+
+
 def main() -> None:
     concepts = {
         "affordable_everyday_meal": {
@@ -412,7 +535,7 @@ def main() -> None:
         top5 = shortlist.sort_values(sort_col, ascending=False).head(5).copy()
         top5["primary_metric"] = sort_col
         top5["primary_value"] = top5[sort_col].round(3)
-        top5["criteria_used"] = ", ".join(relevant_cols)
+        top5["criteria_used"] = [list(relevant_cols) for _ in range(len(top5))]
         top5["criteria_snapshot"] = top5[relevant_cols].apply(
             lambda row: format_snapshot(row, relevant_cols),
             axis=1,
@@ -423,21 +546,13 @@ def main() -> None:
             "primary_metric": sort_col,
             "criteria_used": relevant_cols,
             "areas": [
-                {
-                    "rank": idx + 1,
-                    "planning_area": record["PLANNING_AREA"],
-                    "primary_metric": record["primary_metric"],
-                    "primary_value": float(record["primary_value"]),
-                    "criteria_used": record["criteria_used"],
-                    "criteria_snapshot": record["criteria_snapshot"],
-                    **cluster_lookup[record["PLANNING_AREA"]],
-                    **area_context_lookup[record["PLANNING_AREA"]],
-                    "recommendation_summary": build_recommendation_summary(
-                        concept_cfg["description"],
-                        cluster_lookup[record["PLANNING_AREA"]]["cluster_label"],
-                        cluster_lookup[record["PLANNING_AREA"]]["cluster_description"],
-                    ),
-                }
+                build_area_payload(
+                    record,
+                    idx + 1,
+                    concept_cfg,
+                    cluster_lookup[record["PLANNING_AREA"]],
+                    area_context_lookup[record["PLANNING_AREA"]],
+                )
                 for idx, record in enumerate(top5.to_dict(orient="records"))
             ],
         }
@@ -455,7 +570,7 @@ def main() -> None:
                     "planning_area": area_name,
                     "primary_metric": record["primary_metric"],
                     "primary_value": float(record["primary_value"]),
-                    "criteria_used": record["criteria_used"],
+                    "criteria_used": ", ".join(record["criteria_used"]),
                     "criteria_snapshot": record["criteria_snapshot"],
                     "kmeans_cluster": cluster_info["kmeans_cluster"],
                     "cluster_label": cluster_info["cluster_label"],
