@@ -2,7 +2,57 @@
   "hash": "e20f6b56",
   "configHash": "5c71c7ee",
   "lockfileHash": "1d82316a",
-  "browserHash": "47e26354",
-  "optimized": {},
-  "chunks": {}
+  "browserHash": "b1d13e03",
+  "optimized": {
+    "chart.js": {
+      "src": "../../node_modules/chart.js/dist/chart.js",
+      "file": "chart__js.js",
+      "fileHash": "84ad027f",
+      "needsInterop": false
+    },
+    "react-chartjs-2": {
+      "src": "../../node_modules/react-chartjs-2/dist/index.js",
+      "file": "react-chartjs-2.js",
+      "fileHash": "f696585c",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "6099204d",
+      "needsInterop": true
+    },
+    "react-leaflet": {
+      "src": "../../node_modules/react-leaflet/lib/index.js",
+      "file": "react-leaflet.js",
+      "fileHash": "f4952bdd",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "c286a85a",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "8295c9ab",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chart-xyae3Kdt": {
+      "file": "chart-xyae3Kdt.js",
+      "isDynamicEntry": false
+    },
+    "react-TUYU05Ph": {
+      "file": "react-TUYU05Ph.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-DMGCgcj7": {
+      "file": "react-dom-DMGCgcj7.js",
+      "isDynamicEntry": false
+    }
+  }
 }
