@@ -1,0 +1,197 @@
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import FootfallBarChart from './FootfallBarChart';
+import CompetitorBarChart from './CompetitorBarChart';
+import RentProxyBarChart from './RentProxyBarChart';
+import IncomeMixPieChart from './IncomeMixPieChart';
+import './Dashboard.css';
+import CriteriaSummary from './CriteriaSummary';
+
+// Helper to get unique concepts from the data
+const getConcepts = (conceptsObj) => {
+  if (!conceptsObj || typeof conceptsObj !== 'object') return [];
+  return Object.values(conceptsObj).map(c => c.description);
+};
+
+const Dashboard = () => {
+  const [concepts, setConcepts] = useState([]);
+  const [selectedConcept, setSelectedConcept] = useState('Affordable everyday dining');
+  const [rankOptions] = useState([1,2,3,4,5]);
+  const [selectedRank, setSelectedRank] = useState(1);
+  const [areaDetails, setAreaDetails] = useState(null);
+  const [paretoData, setParetoData] = useState(null);
+  const [geoJson, setGeoJson] = useState(null);
+
+  useEffect(() => {
+    // Fetch pareto_shortlists_updated.json from main directory
+    fetch('/pareto_shortlists_updated.json')
+      .then(res => res.json())
+      .then(data => {
+        setParetoData(data);
+        setConcepts(getConcepts(data.concepts));
+      });
+    // Fetch geojson from main directory
+    fetch('/SG2019planning_area.geojson')
+      .then(res => res.json())
+      .then(data => setGeoJson(data));
+  }, []);
+
+  useEffect(() => {
+    // Find area details for selected concept and rank
+    if (!paretoData || !paretoData.concepts) return;
+    // Find the concept key by matching description
+    const conceptKey = Object.keys(paretoData.concepts).find(
+      key => paretoData.concepts[key].description === selectedConcept
+    );
+    if (!conceptKey) {
+      setAreaDetails(null);
+      return;
+    }
+    const areas = paretoData.concepts[conceptKey].areas || [];
+    const area = areas.find(a => a.rank === selectedRank);
+    setAreaDetails(area || null);
+  }, [paretoData, selectedConcept, selectedRank]);
+
+  // Render map with highlighted area
+  const renderMap = () => {
+    if (!geoJson || !areaDetails) {
+      return (
+        <div style={{ border: '1px solid #ccc', height: 400, borderRadius: 8, background: '#f9f9f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span>Loading map...</span>
+        </div>
+      );
+    }
+    // Find the feature matching the planning_area
+    const highlightArea = areaDetails.planning_area;
+    const onEachFeature = (feature, layer) => {
+      if (feature.properties.PLN_AREA_N === highlightArea) {
+        layer.setStyle({ color: 'red', weight: 3, fillOpacity: 0.5 });
+      } else {
+        layer.setStyle({ color: '#3388ff', weight: 1, fillOpacity: 0.1 });
+      }
+    };
+    return (
+      <MapContainer style={{ height: 400, borderRadius: 8 }} center={[1.3521, 103.8198]} zoom={11} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {/* Force GeoJSON to rerender by changing key when highlightArea changes */}
+        <GeoJSON key={highlightArea} data={geoJson} onEachFeature={onEachFeature} />
+      </MapContainer>
+    );
+  };
+
+  // Placeholder for area details
+  const renderAreaDetails = () => {
+    if (!areaDetails) return <div>No area details found.</div>;
+    return (
+      <div>
+        <h3>{areaDetails.area_name || 'Area'}</h3>
+        <ul>
+          {Object.entries(areaDetails).map(([key, value]) => (
+            key !== 'concept' && key !== 'rank' && (
+              <li key={key}><strong>{key}:</strong> {String(value)}</li>
+            )
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  // Get areas for the selected concept for the bar chart
+  let barChartAreas = [];
+  if (paretoData && paretoData.concepts) {
+    const conceptKey = Object.keys(paretoData.concepts).find(
+      key => paretoData.concepts[key].description === selectedConcept
+    );
+    if (conceptKey) {
+      barChartAreas = paretoData.concepts[conceptKey].areas || [];
+    }
+  }
+
+  // ...existing code...
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 32,
+        padding: 0,
+        position: 'relative',
+        width: '100vw',
+        boxSizing: 'border-box',
+        alignItems: 'flex-start',
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 320, maxWidth: 600, width: '100%', padding: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <h1>MakanMetrics</h1>
+        <div className="row mb-3">
+          <div className="col-md-7 mb-2 mb-md-0">
+            <label className="form-label">Concept:</label>
+            <select
+              value={selectedConcept}
+              onChange={e => setSelectedConcept(e.target.value)}
+              className="form-select"
+            >
+              {concepts.map(concept => (
+                <option key={concept} value={concept}>{concept}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-5">
+            <label className="form-label">Rank:</label>
+            <select
+              value={selectedRank}
+              onChange={e => setSelectedRank(Number(e.target.value))}
+              className="form-select"
+            >
+              {rankOptions.map(rank => (
+                <option key={rank} value={rank}>{rank}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div style={{ textAlign: 'left' }}>
+          {renderAreaDetails()}
+        </div>
+        <div style={{ marginTop: 'auto', marginBottom: 8 }}>
+          <CriteriaSummary areaDetails={areaDetails} />
+        </div>
+      </div>
+      <div
+        style={{
+          flex: 1,
+          minWidth: 320,
+          maxWidth: 700,
+          width: '100%',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          height: 'auto',
+        }}
+      >
+        <div style={{ flex: 1, minHeight: 300, width: '100%' }}>{renderMap()}</div>
+        <div className="dashboard-charts-grid">
+          <div className="dashboard-chart-cell">
+            <IncomeMixPieChart incomeMix={areaDetails && areaDetails.income_mix} />
+          </div>
+          <div className="dashboard-chart-cell">
+            <FootfallBarChart areas={barChartAreas} />
+          </div>
+          <div className="dashboard-chart-cell">
+            <CompetitorBarChart areas={barChartAreas} />
+          </div>
+          <div className="dashboard-chart-cell">
+            <RentProxyBarChart areas={barChartAreas} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
