@@ -11,6 +11,15 @@
         "hawker_stall_count_ratio",
         "mean_price_mid"
       ],
+      "maximize": [
+        "log_footfall",
+        "low_income_ratio",
+        "mid_income_ratio",
+        "hawker_stall_count_ratio"
+      ],
+      "minimize": [
+        "mean_price_mid"
+      ],
       "areas": [
         {
           "rank": 1,
@@ -81,8 +90,69 @@
           },
           "competitor_count": 206,
           "rent_proxy_psm": 131.97,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.304,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.1,
+              "share_formatted": "10.0%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "teens_youth",
+            "label": "Teens / Youth",
+            "share": 0.151,
+            "share_formatted": "15.1%",
+            "vs_overall_pp": 3.7,
+            "vs_overall_formatted": "+3.7 pp"
+          },
           "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -154,8 +224,69 @@
           },
           "competitor_count": 409,
           "rent_proxy_psm": 226.14,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.283,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.283,
+              "share_formatted": "28.3%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.193,
+              "share_formatted": "19.3%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.158,
+              "share_formatted": "15.8%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.134,
+              "share_formatted": "13.4%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.123,
+              "share_formatted": "12.3%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.109,
+              "share_formatted": "10.9%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.283,
+              "share_formatted": "28.3%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.193,
+              "share_formatted": "19.3%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.193,
+            "share_formatted": "19.3%",
+            "vs_overall_pp": 4.1,
+            "vs_overall_formatted": "+4.1 pp"
+          },
           "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -227,8 +358,69 @@
           },
           "competitor_count": 403,
           "rent_proxy_psm": 286.56,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.297,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.297,
+              "share_formatted": "29.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.221,
+              "share_formatted": "22.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.144,
+              "share_formatted": "14.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.126,
+              "share_formatted": "12.6%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.084,
+              "share_formatted": "8.4%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.297,
+              "share_formatted": "29.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.221,
+              "share_formatted": "22.1%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.221,
+            "share_formatted": "22.1%",
+            "vs_overall_pp": 6.9,
+            "vs_overall_formatted": "+6.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -300,8 +492,69 @@
           },
           "competitor_count": 485,
           "rent_proxy_psm": 128.86,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.288,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.288,
+              "share_formatted": "28.8%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.192,
+              "share_formatted": "19.2%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.158,
+              "share_formatted": "15.8%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.118,
+              "share_formatted": "11.8%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.096,
+              "share_formatted": "9.6%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.288,
+              "share_formatted": "28.8%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.192,
+              "share_formatted": "19.2%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.192,
+            "share_formatted": "19.2%",
+            "vs_overall_pp": 4.0,
+            "vs_overall_formatted": "+4.0 pp"
+          },
           "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -373,8 +626,69 @@
           },
           "competitor_count": 166,
           "rent_proxy_psm": 97.14,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.295,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.154,
+              "share_formatted": "15.4%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.13,
+              "share_formatted": "13.0%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.109,
+              "share_formatted": "10.9%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "young_adults",
+            "label": "Young Adults",
+            "share": 0.16,
+            "share_formatted": "16.0%",
+            "vs_overall_pp": 1.5,
+            "vs_overall_formatted": "+1.5 pp"
+          },
           "recommendation_summary": "This area is shortlisted for an affordable everyday dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         }
       ]
@@ -388,6 +702,13 @@
         "unique_category_count",
         "mean_rating"
       ],
+      "maximize": [
+        "mean_price_mid",
+        "high_income_ratio",
+        "unique_category_count",
+        "mean_rating"
+      ],
+      "minimize": [],
       "areas": [
         {
           "rank": 1,
@@ -397,7 +718,7 @@
           "primary_metric_display": {
             "key": "mean_price_mid",
             "label": "Typical price level",
-            "value": 50.66666666666666,
+            "value": 50.666666666666664,
             "formatted_value": "50.67",
             "unit": "SGD"
           },
@@ -411,7 +732,7 @@
             {
               "key": "mean_price_mid",
               "label": "Typical price level",
-              "value": 50.66666666666666,
+              "value": 50.666666666666664,
               "formatted_value": "50.67",
               "unit": "SGD"
             },
@@ -450,8 +771,69 @@
           },
           "competitor_count": 68,
           "rent_proxy_psm": 42.59,
+          "market_quadrant": "Opportunity",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.347,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.347,
+              "share_formatted": "34.7%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.185,
+              "share_formatted": "18.5%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.123,
+              "share_formatted": "12.3%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.102,
+              "share_formatted": "10.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.096,
+              "share_formatted": "9.6%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.347,
+              "share_formatted": "34.7%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.185,
+              "share_formatted": "18.5%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.347,
+            "share_formatted": "34.7%",
+            "vs_overall_pp": 4.9,
+            "vs_overall_formatted": "+4.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
         },
         {
@@ -515,8 +897,69 @@
           },
           "competitor_count": 27,
           "rent_proxy_psm": 44.24,
+          "market_quadrant": "Opportunity",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.384,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.384,
+              "share_formatted": "38.4%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.131,
+              "share_formatted": "13.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.121,
+              "share_formatted": "12.1%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.111,
+              "share_formatted": "11.1%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.093,
+              "share_formatted": "9.3%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.384,
+              "share_formatted": "38.4%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.384,
+            "share_formatted": "38.4%",
+            "vs_overall_pp": 8.6,
+            "vs_overall_formatted": "+8.6 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
         },
         {
@@ -580,8 +1023,69 @@
           },
           "competitor_count": 323,
           "rent_proxy_psm": 60.02,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.295,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.256,
+              "share_formatted": "25.6%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.156,
+              "share_formatted": "15.6%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.119,
+              "share_formatted": "11.9%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.108,
+              "share_formatted": "10.8%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.066,
+              "share_formatted": "6.6%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.256,
+              "share_formatted": "25.6%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.256,
+            "share_formatted": "25.6%",
+            "vs_overall_pp": 10.4,
+            "vs_overall_formatted": "+10.4 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
         },
         {
@@ -645,8 +1149,69 @@
           },
           "competitor_count": 760,
           "rent_proxy_psm": 211.15,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.407,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.407,
+              "share_formatted": "40.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.177,
+              "share_formatted": "17.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.138,
+              "share_formatted": "13.8%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.125,
+              "share_formatted": "12.5%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.092,
+              "share_formatted": "9.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.062,
+              "share_formatted": "6.2%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.407,
+              "share_formatted": "40.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.177,
+              "share_formatted": "17.7%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.407,
+            "share_formatted": "40.7%",
+            "vs_overall_pp": 10.8,
+            "vs_overall_formatted": "+10.8 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
         },
         {
@@ -710,8 +1275,69 @@
           },
           "competitor_count": 180,
           "rent_proxy_psm": 102.65,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.3,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.3,
+              "share_formatted": "30.0%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.168,
+              "share_formatted": "16.8%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.167,
+              "share_formatted": "16.7%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.132,
+              "share_formatted": "13.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.121,
+              "share_formatted": "12.1%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.111,
+              "share_formatted": "11.1%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.3,
+              "share_formatted": "30.0%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.168,
+              "share_formatted": "16.8%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "children",
+            "label": "Children",
+            "share": 0.167,
+            "share_formatted": "16.7%",
+            "vs_overall_pp": 2.1,
+            "vs_overall_formatted": "+2.1 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a premium cafe / specialty cafe and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         }
       ]
@@ -724,6 +1350,16 @@
         "mid_age_adults_ratio",
         "weekend_ratio",
         "mid_income_ratio",
+        "mean_price_mid",
+        "log_competitor_count"
+      ],
+      "maximize": [
+        "children_ratio",
+        "mid_age_adults_ratio",
+        "weekend_ratio",
+        "mid_income_ratio"
+      ],
+      "minimize": [
         "mean_price_mid",
         "log_competitor_count"
       ],
@@ -805,8 +1441,69 @@
           },
           "competitor_count": 206,
           "rent_proxy_psm": 131.97,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.304,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.1,
+              "share_formatted": "10.0%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "teens_youth",
+            "label": "Teens / Youth",
+            "share": 0.151,
+            "share_formatted": "15.1%",
+            "vs_overall_pp": 3.7,
+            "vs_overall_formatted": "+3.7 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -886,8 +1583,69 @@
           },
           "competitor_count": 186,
           "rent_proxy_psm": 154.04,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.313,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.143,
+              "share_formatted": "14.3%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.313,
+            "share_formatted": "31.3%",
+            "vs_overall_pp": 1.4,
+            "vs_overall_formatted": "+1.4 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -967,8 +1725,69 @@
           },
           "competitor_count": 166,
           "rent_proxy_psm": 97.14,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.295,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.154,
+              "share_formatted": "15.4%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.13,
+              "share_formatted": "13.0%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.109,
+              "share_formatted": "10.9%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.295,
+              "share_formatted": "29.5%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.16,
+              "share_formatted": "16.0%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "young_adults",
+            "label": "Young Adults",
+            "share": 0.16,
+            "share_formatted": "16.0%",
+            "vs_overall_pp": 1.5,
+            "vs_overall_formatted": "+1.5 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1048,8 +1867,69 @@
           },
           "competitor_count": 112,
           "rent_proxy_psm": 97.14,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.326,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.326,
+              "share_formatted": "32.6%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.18,
+              "share_formatted": "18.0%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.164,
+              "share_formatted": "16.4%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.121,
+              "share_formatted": "12.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.119,
+              "share_formatted": "11.9%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.09,
+              "share_formatted": "9.0%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.326,
+              "share_formatted": "32.6%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.18,
+              "share_formatted": "18.0%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "children",
+            "label": "Children",
+            "share": 0.18,
+            "share_formatted": "18.0%",
+            "vs_overall_pp": 3.5,
+            "vs_overall_formatted": "+3.5 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1129,8 +2009,69 @@
           },
           "competitor_count": 185,
           "rent_proxy_psm": 116.36,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.277,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.277,
+              "share_formatted": "27.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.19,
+              "share_formatted": "19.0%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.164,
+              "share_formatted": "16.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.114,
+              "share_formatted": "11.4%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.113,
+              "share_formatted": "11.3%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.277,
+              "share_formatted": "27.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.19,
+              "share_formatted": "19.0%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.19,
+            "share_formatted": "19.0%",
+            "vs_overall_pp": 3.8,
+            "vs_overall_formatted": "+3.8 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a family-oriented casual dining and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         }
       ]
@@ -1142,6 +2083,14 @@
         "chinese_count_ratio",
         "indian_count_ratio",
         "hawker_stall_count_ratio",
+        "cafe_count_ratio"
+      ],
+      "maximize": [
+        "chinese_count_ratio",
+        "indian_count_ratio",
+        "hawker_stall_count_ratio"
+      ],
+      "minimize": [
         "cafe_count_ratio"
       ],
       "areas": [
@@ -1206,8 +2155,69 @@
           },
           "competitor_count": 51,
           "rent_proxy_psm": 44.24,
+          "market_quadrant": "Opportunity",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.352,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.352,
+              "share_formatted": "35.2%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.181,
+              "share_formatted": "18.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.145,
+              "share_formatted": "14.5%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.132,
+              "share_formatted": "13.2%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.104,
+              "share_formatted": "10.4%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.086,
+              "share_formatted": "8.6%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.352,
+              "share_formatted": "35.2%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.181,
+              "share_formatted": "18.1%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.352,
+            "share_formatted": "35.2%",
+            "vs_overall_pp": 5.4,
+            "vs_overall_formatted": "+5.4 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1271,8 +2281,69 @@
           },
           "competitor_count": 403,
           "rent_proxy_psm": 286.56,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.297,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.297,
+              "share_formatted": "29.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.221,
+              "share_formatted": "22.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.144,
+              "share_formatted": "14.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.126,
+              "share_formatted": "12.6%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.084,
+              "share_formatted": "8.4%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.297,
+              "share_formatted": "29.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.221,
+              "share_formatted": "22.1%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.221,
+            "share_formatted": "22.1%",
+            "vs_overall_pp": 6.9,
+            "vs_overall_formatted": "+6.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1336,8 +2407,69 @@
           },
           "competitor_count": 206,
           "rent_proxy_psm": 131.97,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.304,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.1,
+              "share_formatted": "10.0%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "teens_youth",
+            "label": "Teens / Youth",
+            "share": 0.151,
+            "share_formatted": "15.1%",
+            "vs_overall_pp": 3.7,
+            "vs_overall_formatted": "+3.7 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1401,8 +2533,69 @@
           },
           "competitor_count": 186,
           "rent_proxy_psm": 154.04,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.313,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.143,
+              "share_formatted": "14.3%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.313,
+            "share_formatted": "31.3%",
+            "vs_overall_pp": 1.4,
+            "vs_overall_formatted": "+1.4 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1466,8 +2659,69 @@
           },
           "competitor_count": 452,
           "rent_proxy_psm": 99.84,
+          "market_quadrant": "Competitive",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.302,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.302,
+              "share_formatted": "30.2%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.211,
+              "share_formatted": "21.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.15,
+              "share_formatted": "15.0%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.13,
+              "share_formatted": "13.0%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.12,
+              "share_formatted": "12.0%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.087,
+              "share_formatted": "8.7%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.302,
+              "share_formatted": "30.2%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.211,
+              "share_formatted": "21.1%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.211,
+            "share_formatted": "21.1%",
+            "vs_overall_pp": 5.9,
+            "vs_overall_formatted": "+5.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a local cuisine / traditional favorites and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         }
       ]
@@ -1480,6 +2734,15 @@
         "weekday_ratio",
         "fast_food_count_ratio",
         "teens_youth_ratio",
+        "mean_price_mid"
+      ],
+      "maximize": [
+        "log_footfall",
+        "weekday_ratio",
+        "fast_food_count_ratio",
+        "teens_youth_ratio"
+      ],
+      "minimize": [
         "mean_price_mid"
       ],
       "areas": [
@@ -1552,8 +2815,69 @@
           },
           "competitor_count": 206,
           "rent_proxy_psm": 131.97,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.304,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.1,
+              "share_formatted": "10.0%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.304,
+              "share_formatted": "30.4%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.152,
+              "share_formatted": "15.2%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "teens_youth",
+            "label": "Teens / Youth",
+            "share": 0.151,
+            "share_formatted": "15.1%",
+            "vs_overall_pp": 3.7,
+            "vs_overall_formatted": "+3.7 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1625,8 +2949,69 @@
           },
           "competitor_count": 229,
           "rent_proxy_psm": 111.17,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.272,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.272,
+              "share_formatted": "27.2%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.165,
+              "share_formatted": "16.5%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.161,
+              "share_formatted": "16.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.135,
+              "share_formatted": "13.5%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.119,
+              "share_formatted": "11.9%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.272,
+              "share_formatted": "27.2%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.165,
+              "share_formatted": "16.5%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "older_adults",
+            "label": "Older Adults",
+            "share": 0.165,
+            "share_formatted": "16.5%",
+            "vs_overall_pp": 1.9,
+            "vs_overall_formatted": "+1.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1698,8 +3083,69 @@
           },
           "competitor_count": 186,
           "rent_proxy_psm": 154.04,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.313,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.143,
+              "share_formatted": "14.3%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.141,
+              "share_formatted": "14.1%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.128,
+              "share_formatted": "12.8%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.313,
+              "share_formatted": "31.3%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.147,
+              "share_formatted": "14.7%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.313,
+            "share_formatted": "31.3%",
+            "vs_overall_pp": 1.4,
+            "vs_overall_formatted": "+1.4 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         },
         {
@@ -1771,8 +3217,69 @@
           },
           "competitor_count": 760,
           "rent_proxy_psm": 211.15,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.407,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.407,
+              "share_formatted": "40.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.177,
+              "share_formatted": "17.7%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.138,
+              "share_formatted": "13.8%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.125,
+              "share_formatted": "12.5%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.092,
+              "share_formatted": "9.2%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.062,
+              "share_formatted": "6.2%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.407,
+              "share_formatted": "40.7%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.177,
+              "share_formatted": "17.7%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "mid_age_adults",
+            "label": "Mid-Age Adults",
+            "share": 0.407,
+            "share_formatted": "40.7%",
+            "vs_overall_pp": 10.8,
+            "vs_overall_formatted": "+10.8 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Premium Central / Lifestyle cluster, which supports higher price points, stronger ratings, and greater category diversity."
         },
         {
@@ -1844,8 +3351,69 @@
           },
           "competitor_count": 488,
           "rent_proxy_psm": 115.66,
+          "market_quadrant": "Saturated",
           "primary_demographic": "Mid-Age Adults",
           "primary_demographic_share": 0.286,
+          "demographic_breakdown": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.286,
+              "share_formatted": "28.6%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.211,
+              "share_formatted": "21.1%"
+            },
+            {
+              "key": "older_adults",
+              "label": "Older Adults",
+              "share": 0.151,
+              "share_formatted": "15.1%"
+            },
+            {
+              "key": "young_adults",
+              "label": "Young Adults",
+              "share": 0.136,
+              "share_formatted": "13.6%"
+            },
+            {
+              "key": "children",
+              "label": "Children",
+              "share": 0.121,
+              "share_formatted": "12.1%"
+            },
+            {
+              "key": "teens_youth",
+              "label": "Teens / Youth",
+              "share": 0.096,
+              "share_formatted": "9.6%"
+            }
+          ],
+          "top_demographics": [
+            {
+              "key": "mid_age_adults",
+              "label": "Mid-Age Adults",
+              "share": 0.286,
+              "share_formatted": "28.6%"
+            },
+            {
+              "key": "seniors",
+              "label": "Seniors",
+              "share": 0.211,
+              "share_formatted": "21.1%"
+            }
+          ],
+          "demographic_emphasis": {
+            "key": "seniors",
+            "label": "Seniors",
+            "share": 0.211,
+            "share_formatted": "21.1%",
+            "vs_overall_pp": 5.9,
+            "vs_overall_formatted": "+5.9 pp"
+          },
           "recommendation_summary": "This area is shortlisted for a fast-food / grab-and-go concept and belongs to the Mainstream Urban / Heartland cluster, which supports stronger everyday demand, denser competition, and a more mass-market, affordable environment."
         }
       ]

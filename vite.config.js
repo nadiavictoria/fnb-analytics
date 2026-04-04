@@ -2,6 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const projectRoot = fileURLToPath(new URL('.', import.meta.url))
+const dataDir = path.join(projectRoot, 'data')
+const distDataDir = path.join(projectRoot, 'dist', 'data')
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,7 +17,7 @@ export default defineConfig({
       // Dev: serve files from data/ at /data/
       configureServer(server) {
         server.middlewares.use('/data', (req, res, next) => {
-          const filePath = path.join(process.cwd(), 'data', req.url.replace(/^\//, ''))
+          const filePath = path.join(dataDir, req.url.replace(/^\//, ''))
           if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
             const ext = path.extname(filePath)
             if (ext === '.json') res.setHeader('Content-Type', 'application/json')
@@ -25,14 +30,13 @@ export default defineConfig({
       },
       // Production: copy data/ into dist/data/
       closeBundle() {
-        const srcDir = path.join(process.cwd(), 'data')
-        const outDir = path.join(process.cwd(), 'dist', 'data')
-        fs.mkdirSync(outDir, { recursive: true })
-        for (const file of fs.readdirSync(srcDir)) {
-          const src = path.join(srcDir, file)
+        fs.mkdirSync(distDataDir, { recursive: true })
+        for (const file of fs.readdirSync(dataDir)) {
+          if (file.startsWith('.')) continue
+          const src = path.join(dataDir, file)
           if (fs.statSync(src).isFile()) {
-            fs.copyFileSync(src, path.join(outDir, file))
-            console.log(`[serve-data-dir] copied ${file} -> dist/data/`)
+            fs.copyFileSync(src, path.join(distDataDir, file))
+            console.log(`[serve-data-dir] copied data/${file} -> dist/data/`)
           }
         }
       }

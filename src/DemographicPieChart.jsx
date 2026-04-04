@@ -1,46 +1,116 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+import {
+  ArcElement,
+  Chart as ChartJS,
+  Legend,
+  Tooltip,
+} from 'chart.js';
+import './Dashboard.css';
+import { DATA_UNAVAILABLE } from './display';
 
-Chart.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DemographicPieChart = ({ primaryDemographic, primaryShare }) => {
-  if (!primaryDemographic || primaryShare == null) return <div>No demographic data</div>;
-  const share = Number(primaryShare);
+const demographicPalette = [
+  '#1d4ed8',
+  '#2563eb',
+  '#0f766e',
+  '#38bdf8',
+  '#64748b',
+  '#94a3b8',
+];
+
+const demographicOrder = [
+  'children',
+  'teens_youth',
+  'young_adults',
+  'mid_age_adults',
+  'older_adults',
+  'seniors',
+];
+
+const DemographicPieChart = ({ demographicBreakdown }) => {
+  const rows = Array.isArray(demographicBreakdown)
+    ? [...demographicBreakdown].sort(
+        (a, b) => demographicOrder.indexOf(a.key) - demographicOrder.indexOf(b.key),
+      )
+    : [];
+  const hasData = rows.length > 0;
+  const numericValues = rows.map((row) =>
+    row?.share !== null && row?.share !== undefined && !Number.isNaN(Number(row.share))
+      ? Number(row.share)
+      : 0,
+  );
+  const maxValue = Math.max(...numericValues, 0);
+
   const data = {
-    labels: [primaryDemographic, 'Others'],
+    labels: rows.map((row, index) => row?.label || `Segment ${index + 1}`),
     datasets: [
       {
-        data: [share, 1 - share],
-        backgroundColor: ['#4e79a7', '#e0e4ea'],
-        borderWidth: 1,
+        data: numericValues,
+        backgroundColor: rows.map((_, index) => demographicPalette[index] || '#94a3b8'),
+        borderColor: '#ffffff',
+        borderWidth: 4,
+        hoverOffset: 8,
+        offset: numericValues.map((value) => (value === maxValue && value > 0 ? 16 : 0)),
       },
     ],
   };
+
   const options = {
+    maintainAspectRatio: false,
     plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-      },
-      title: { display: true, text: 'Primary Demographic' },
+      legend: { display: false },
       tooltip: {
         callbacks: {
-          label: function(context) {
-            const label = context.label || '';
-            const value = context.raw;
-            return `${label}: ${(value * 100).toFixed(1)}%`;
-          },
+          label: (context) =>
+            `${context.label}: ${rows[context.dataIndex]?.share_formatted || DATA_UNAVAILABLE}`,
         },
       },
     },
-    cutout: '0%',
-    responsive: true,
-    maintainAspectRatio: false,
   };
+
   return (
-    <div style={{ width: '100%', height: 200 }}>
-      <Pie data={data} options={options} />
+    <div className="dashboard-card compact-info-card">
+      <div className="dashboard-section-head">
+        <div>
+          <h2>Demographics</h2>
+          <p>Demographic composition in the selected planning area.</p>
+        </div>
+      </div>
+
+      {hasData ? (
+        <div className="profile-side-by-side">
+          <div className="profile-pie-wrap profile-pie-wrap-large">
+            <Pie data={data} options={options} />
+          </div>
+
+          <div className="profile-legend-list profile-legend-list-side">
+            {rows.map((row, index) => {
+              const isHighest = numericValues[index] === maxValue && maxValue > 0;
+              return (
+                <div
+                  className={`profile-legend-item profile-legend-item-large ${isHighest ? 'profile-legend-item-accent' : ''}`}
+                  key={row.key || index}
+                >
+                  <div className="profile-legend-left">
+                    <span
+                      className="profile-legend-swatch profile-legend-swatch-large"
+                      style={{ backgroundColor: demographicPalette[index] || '#94a3b8' }}
+                    />
+                    <div className="profile-legend-copy">
+                      <span>{row.label || DATA_UNAVAILABLE}</span>
+                    </div>
+                  </div>
+                  <strong>{row.share_formatted || DATA_UNAVAILABLE}</strong>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div className="profile-empty">{DATA_UNAVAILABLE}</div>
+      )}
     </div>
   );
 };
