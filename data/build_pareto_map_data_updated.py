@@ -12,11 +12,11 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 
 
-ROOT = Path(__file__).resolve().parent
-MASTER_DATASET = ROOT / "master_dataset.csv"
-OUTPUT_JSON = ROOT / "pareto_shortlists_updated.json"
-OUTPUT_CSV = ROOT / "pareto_shortlists_updated.csv"
-CLUSTER_CACHE = ROOT / ".cluster_cache.joblib"
+DATA_ROOT = Path(__file__).resolve().parent
+MASTER_DATASET = DATA_ROOT / "master_dataset.csv"
+OUTPUT_JSON = DATA_ROOT / "pareto_shortlists_updated.json"
+OUTPUT_CSV = DATA_ROOT / "pareto_shortlists_updated.csv"
+CLUSTER_CACHE = DATA_ROOT / ".cluster_cache.joblib"
 
 # Columns actually consumed by the pipeline, avoids loading unused fields
 MASTER_DATASET_COLS = [
@@ -32,6 +32,7 @@ MASTER_DATASET_COLS = [
     "chinese_count", "japanese_count", "indian_count", "cafe_count", "thai_count", "fast_food_count",
     "rent_proxy_psm",
     "inflow_ratio",
+    "market_quadrant",
 ]
 
 SPECIAL_CASE_AREAS = {
@@ -155,15 +156,24 @@ def build_area_context_lookup(df: pd.DataFrame, analysis_df: pd.DataFrame) -> di
         "seniors": "Seniors",
     }
 
-    context_df = df[["PLANNING_AREA", "total_footfall", "competitor_count", "rent_proxy_psm"]].copy()
+    demo_ratio_cols = [f"{col}_ratio" for col in demographic_cols]
+    overall_demo_totals = analysis_df[demographic_cols].sum(axis=0, min_count=1)
+    overall_demo_total = overall_demo_totals.sum(min_count=1)
+    overall_demo_mix = {
+        col: np.nan if pd.isna(overall_demo_total) or overall_demo_total == 0 else overall_demo_totals[col] / overall_demo_total
+        for col in demographic_cols
+    }
+
+    context_df = df[["PLANNING_AREA", "total_footfall", "competitor_count", "rent_proxy_psm", "market_quadrant"]].copy()
     context_df = context_df.merge(
         analysis_df[["PLANNING_AREA", *income_ratio_cols]],
         on="PLANNING_AREA",
         how="left",
     )
 
-    demo_df = analysis_df[["PLANNING_AREA", *demographic_cols]].copy()
+    demo_df = analysis_df[["PLANNING_AREA", *demographic_cols, *demo_ratio_cols]].copy()
     demo_values = demo_df[demographic_cols]
+    demo_ratio_values = demo_df[demo_ratio_cols]
     demo_total = demo_values.sum(axis=1, min_count=1)
     has_demo = demo_values.notna().any(axis=1)
 
@@ -179,8 +189,89 @@ def build_area_context_lookup(df: pd.DataFrame, analysis_df: pd.DataFrame) -> di
     demo_df["primary_demographic"] = primary_demo_col.map(demographic_labels)
     demo_df["primary_demographic_share"] = primary_demo_share
 
+    demographic_breakdown_list: list[list[dict[str, object]] | None] = []
+    top_demographics_list: list[list[dict[str, object]] | None] = []
+    demographic_emphasis_list: list[dict[str, object] | None] = []
+
+    for _, row in demo_df.iterrows():
+        ratio_map = {col: row[f"{col}_ratio"] for col in demographic_cols}
+        valid_items = [
+            (col, ratio)
+            for col, ratio in ratio_map.items()
+            if not pd.isna(ratio)
+        ]
+
+        if not valid_items:
+            demographic_breakdown_list.append(None)
+            top_demographics_list.append(None)
+            demographic_emphasis_list.append(None)
+            continue
+
+        ranked_items = sorted(valid_items, key=lambda item: item[1], reverse=True)
+        demographic_breakdown_list.append(
+            [
+                {
+                    "key": col,
+                    "label": demographic_labels[col],
+                    "share": round(float(share), 3),
+                    "share_formatted": f"{float(share) * 100:.1f}%",
+                }
+                for col, share in ranked_items
+            ]
+        )
+        top_demographics_list.append(
+            [
+                {
+                    "key": col,
+                    "label": demographic_labels[col],
+                    "share": round(float(share), 3),
+                    "share_formatted": f"{float(share) * 100:.1f}%",
+                }
+                for col, share in ranked_items[:2]
+            ]
+        )
+
+        best_col = None
+        best_delta = None
+        for col, share in valid_items:
+            baseline = overall_demo_mix[col]
+            if pd.isna(baseline):
+                continue
+            delta_pp = (float(share) - float(baseline)) * 100
+            if best_delta is None or delta_pp > best_delta:
+                best_col = col
+                best_delta = delta_pp
+
+        if best_col is None or best_delta is None:
+            demographic_emphasis_list.append(None)
+        else:
+            share = ratio_map[best_col]
+            demographic_emphasis_list.append(
+                {
+                    "key": best_col,
+                    "label": demographic_labels[best_col],
+                    "share": round(float(share), 3),
+                    "share_formatted": f"{float(share) * 100:.1f}%",
+                    "vs_overall_pp": round(float(best_delta), 1),
+                    "vs_overall_formatted": f"{float(best_delta):+.1f} pp",
+                }
+            )
+
+    demo_df["demographic_breakdown"] = demographic_breakdown_list
+    demo_df["top_demographics"] = top_demographics_list
+    demo_df["demographic_emphasis"] = demographic_emphasis_list
+
     context_df = context_df.merge(
-        demo_df[["PLANNING_AREA", "primary_demographic", "primary_demographic_share"]],
+        demo_df[
+            [
+                "PLANNING_AREA",
+                "primary_demographic",
+                "primary_demographic_share",
+                "demographic_breakdown",
+                "top_demographics",
+                "demographic_emphasis",
+            ]
+        ],
         on="PLANNING_AREA",
         how="left",
     )
@@ -196,10 +287,14 @@ def build_area_context_lookup(df: pd.DataFrame, analysis_df: pd.DataFrame) -> di
             },
             "competitor_count": None if pd.isna(record["competitor_count"]) else int(record["competitor_count"]),
             "rent_proxy_psm": None if pd.isna(record["rent_proxy_psm"]) else round(float(record["rent_proxy_psm"]), 2),
+            "market_quadrant": None if pd.isna(record["market_quadrant"]) else record["market_quadrant"],
             "primary_demographic": record["primary_demographic"],
             "primary_demographic_share": None
             if pd.isna(record["primary_demographic_share"])
             else round(float(record["primary_demographic_share"]), 3),
+            "demographic_breakdown": record["demographic_breakdown"],
+            "top_demographics": record["top_demographics"],
+            "demographic_emphasis": record["demographic_emphasis"],
         }
     return lookup
 
@@ -545,6 +640,8 @@ def main() -> None:
             "description": concept_cfg["description"],
             "primary_metric": sort_col,
             "criteria_used": relevant_cols,
+            "maximize": concept_cfg["maximize"],
+            "minimize": concept_cfg["minimize"],
             "areas": [
                 build_area_payload(
                     record,
@@ -584,11 +681,21 @@ def main() -> None:
                     "total_footfall": area_context["total_footfall"],
                     "competitor_count": area_context["competitor_count"],
                     "rent_proxy_psm": area_context["rent_proxy_psm"],
+                    "market_quadrant": area_context["market_quadrant"],
                     "low_income_ratio": area_context["income_mix"]["low"],
                     "mid_income_ratio": area_context["income_mix"]["mid"],
                     "high_income_ratio": area_context["income_mix"]["high"],
                     "primary_demographic": area_context["primary_demographic"],
                     "primary_demographic_share": area_context["primary_demographic_share"],
+                    "demographic_emphasis": None
+                    if not area_context["demographic_emphasis"]
+                    else area_context["demographic_emphasis"]["label"],
+                    "demographic_emphasis_share": None
+                    if not area_context["demographic_emphasis"]
+                    else area_context["demographic_emphasis"]["share"],
+                    "demographic_emphasis_vs_overall_pp": None
+                    if not area_context["demographic_emphasis"]
+                    else area_context["demographic_emphasis"]["vs_overall_pp"],
                 }
             )
 
@@ -596,7 +703,8 @@ def main() -> None:
         "generated_from": str(MASTER_DATASET.name),
         "concepts": concepts_payload,
     }
-    OUTPUT_JSON.write_text(json.dumps(sanitize_for_json(payload), indent=2, allow_nan=False))
+    payload_json = json.dumps(sanitize_for_json(payload), indent=2, allow_nan=False)
+    OUTPUT_JSON.write_text(payload_json)
     pd.DataFrame(csv_rows).to_csv(OUTPUT_CSV, index=False)
     print(f"Wrote {OUTPUT_JSON}")
     print(f"Wrote {OUTPUT_CSV}")
