@@ -17,14 +17,14 @@ const IncomeMixPieChart = ({ incomeMix }) => {
       {
         data: [incomeMix.low, incomeMix.mid, incomeMix.high],
         backgroundColor: [
-          '#a259ec', // purple for Low
-          '#2ecc40', // green for Mid
-          '#ff9800'  // orange for High
+          '#EC6B56',
+          '#FFC154',
+          '#47B39C'
         ],
         borderColor: [
-          '#a259ec',
-          '#2ecc40',
-          '#ff9800'
+          '#EC6B56',
+          '#FFC154',
+          '#47B39C'
         ],
         borderWidth: 1,
       },
@@ -33,7 +33,7 @@ const IncomeMixPieChart = ({ incomeMix }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: 'top' },
+      legend: { position: 'bottom' },
       title: { display: true, text: 'Income Mix' },
     },
   };

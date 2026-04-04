@@ -5,6 +5,7 @@ import FootfallBarChart from './FootfallBarChart';
 import CompetitorBarChart from './CompetitorBarChart';
 import RentProxyBarChart from './RentProxyBarChart';
 import IncomeMixPieChart from './IncomeMixPieChart';
+import DemographicPieChart from './DemographicPieChart';
 import './Dashboard.css';
 import CriteriaSummary from './CriteriaSummary';
 
@@ -83,23 +84,6 @@ const Dashboard = () => {
     );
   };
 
-  // Placeholder for area details
-  const renderAreaDetails = () => {
-    if (!areaDetails) return <div>No area details found.</div>;
-    return (
-      <div>
-        <h3>{areaDetails.area_name || 'Area'}</h3>
-        <ul>
-          {Object.entries(areaDetails).map(([key, value]) => (
-            key !== 'concept' && key !== 'rank' && (
-              <li key={key}><strong>{key}:</strong> {String(value)}</li>
-            )
-          ))}
-        </ul>
-      </div>
-    );
-  };
-
   // Get areas for the selected concept for the bar chart
   let barChartAreas = [];
   if (paretoData && paretoData.concepts) {
@@ -111,24 +95,10 @@ const Dashboard = () => {
     }
   }
 
-  // ...existing code...
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 32,
-        padding: 0,
-        position: 'relative',
-        width: '100vw',
-        boxSizing: 'border-box',
-        alignItems: 'flex-start',
-      }}
-    >
-      <div style={{ flex: 1, minWidth: 320, maxWidth: 600, width: '100%', padding: 10, display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <h1>MakanMetrics</h1>
+    <div className="dashboard-root">
+      <div className="dashboard-left">
+        <h1 style={{ marginBottom: 8 }}>MakanMetrics</h1>
         <div className="row mb-3">
           <div className="col-md-7 mb-2 mb-md-0">
             <label className="form-label">Concept:</label>
@@ -155,11 +125,19 @@ const Dashboard = () => {
             </select>
           </div>
         </div>
-        <div style={{ textAlign: 'left' }}>
-          {renderAreaDetails()}
-        </div>
-        <div style={{ marginTop: 'auto', marginBottom: 8 }}>
+        <div style={{ marginTop: 0, marginBottom: 8 }}>
           <CriteriaSummary areaDetails={areaDetails} />
+          <div className="dashboard-pie-row">
+            <div className="dashboard-pie-cell">
+              <IncomeMixPieChart incomeMix={areaDetails && areaDetails.income_mix} />
+            </div>
+            <div className="dashboard-pie-cell">
+              <DemographicPieChart
+                primaryDemographic={areaDetails && areaDetails.primary_demographic}
+                primaryShare={areaDetails && areaDetails.primary_demographic_share}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -176,9 +154,6 @@ const Dashboard = () => {
       >
         <div style={{ flex: 1, minHeight: 300, width: '100%' }}>{renderMap()}</div>
         <div className="dashboard-charts-grid">
-          <div className="dashboard-chart-cell">
-            <IncomeMixPieChart incomeMix={areaDetails && areaDetails.income_mix} />
-          </div>
           <div className="dashboard-chart-cell">
             <FootfallBarChart areas={barChartAreas} />
           </div>
