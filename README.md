@@ -23,7 +23,7 @@ fnb-analytics/
 │   ├── api.py                                    # FastAPI server (POST /ask)
 │   ├── askllm.py                                 # RAG pipeline (parse -> Neo4j -> LLM)
 │   ├── build_pareto_map_data_updated.py          # regenerates Pareto JSON/CSV outputs
-│   ├── get_postal.py                             # enriches raw scraped CSVs with postal codes (Google Places API) and coordinates (OneMap API) to produce dataset/01_restaurant_scraped/
+│   ├── get_postal.py                             # enriches raw scraped CSVs with postal codes and coordinates
 │   ├── archetypes.json                           # F&B concept definitions (single source of truth)
 │   ├── category_map.json                         # food category aliases -> canonical names
 │   ├── mrt_to_planning_area.json                 # MRT station -> planning area lookup
@@ -42,7 +42,7 @@ fnb-analytics/
 ├── dataset/                                      # raw source data (gitignored, see below)
 │   ├── 01_restaurant_scraped/                    # one CSV per MRT station (~130 files, see below)
 │   ├── 02_aggregated/                            # auto-created by notebook 03 (aggregated_restaurant.csv)
-│   ├── 03_cleaned/                               # auto-created by notebook 03 (cleaned_restaurant.csv, input to notebook 04)
+│   ├── 03_cleaned/                               # auto-created by notebook 03 (cleaned_restaurant.csv)
 │   ├── LTA Footfall Traffic Datasets/            # LTA origin-destination train/bus footfall
 │   ├── SFA Eating Establishment Dataset/         # SFA licensed eating establishment data
 │   ├── REALIS data/                              # retail rental transactions (Q1-Q4 2025)
