@@ -132,48 +132,60 @@ def get_pareto_context(locations: list) -> str:
 # ==========================================
 def parse_query(question, model, client):
     prompt = f"""
-    Extract MRT station names and food category from the query.
+    Extract MRT station names, food category, sort order, and result limit from the query.
 
     Return STRICT JSON format:
     {{
         "locations": ["mrt_station_1", "mrt_station_2"],
-        "category": "food_category"
+        "categories": ["food_category_1", "food_category_2"],
+        "category_match": "all",
+        "sort_order": "desc",
+        "limit": 10
     }}
 
     Rules:
     - Extract any place name that refers to an MRT station or area in Singapore (e.g. "jurong", "tampines", "bedok", "orchard", "choa chu kang")
     - Convert location names to lowercase and replace spaces with underscores (e.g. "choa chu kang" → "choa_chu_kang")
     - Partial names are valid: "jurong" is a valid location even if the full name is "jurong east"
-    - Category must be a specific food type (e.g. "hawker stall", "japanese", "cafe", "korean", "chinese")
-    - Generic words like "restaurant", "restaurants", "food", "place", "stall" are NOT a category — set category to ""
-    - If no food category found, return ""
+    - categories is a list of specific food types the user wants (e.g. ["chinese", "halal"], ["japanese"], ["cafe"])
+    - Generic words like "restaurant", "restaurants", "food", "place", "stall" are NOT a category — omit them
+    - If no food category found, return []
+    - category_match: "all" if the user wants restaurants matching ALL categories (e.g. "chinese halal", "chinese and halal"), "any" if the user wants restaurants matching ANY category (e.g. "chinese or halal", "chinese or japanese")
+    - sort_order: "asc" if the user asks for worst, lowest rated, cheapest, bottom, otherwise "desc"
+    - limit: the number the user asks for (e.g. "top 5" → 5, "3 restaurants" → 3), default to 10 if not specified
 
     Query: {question}
     """
-    
+
     # WITH GEMINI
     if model == "gemini":
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt
         )
-        
+
         raw_text = response.text.strip()
         cleaned = re.sub(r"```json|```", "", raw_text).strip()
 
         try:
             parsed = json.loads(cleaned)
-            return parsed.get("locations", []), parsed.get("category", "")
+            return (
+                parsed.get("locations", []),
+                parsed.get("categories", []),
+                parsed.get("category_match", "all"),
+                parsed.get("sort_order", "desc"),
+                int(parsed.get("limit", 10)),
+            )
         except Exception as e:
             print("Parsing failed. Raw output:", raw_text)
-            return [], ""
+            return [], [], "all", "desc", 10
 
     # WITH GPT MODEL
     elif model == "gpt":
         response = client.chat.completions.create(
             model='gpt-4.1-mini',
             messages=[
-                {"role": "system", "content": "Extract MRT stations and food category in JSON."},
+                {"role": "system", "content": "Extract MRT stations, food categories (list), sort order, and limit in JSON."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0
@@ -182,14 +194,20 @@ def parse_query(question, model, client):
         raw_text = response.choices[0].message.content.strip()
 
         cleaned = re.sub(r"```json|```", "", raw_text).strip()
-        
+
         try:
             parsed = json.loads(cleaned)
-            return parsed.get("locations", []), parsed.get("category", "")
+            return (
+                parsed.get("locations", []),
+                parsed.get("categories", []),
+                parsed.get("category_match", "all"),
+                parsed.get("sort_order", "desc"),
+                int(parsed.get("limit", 10)),
+            )
         except Exception as e:
             print("Parsing failed. Raw output:", raw_text)
             print("Cleaned output:", cleaned)
-            return [], ""
+            return [], [], "all", "desc", 10
 
 # ==========================================
 # BUILD CONTEXT
@@ -215,8 +233,8 @@ def ask_question(question, model="gemini"):
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))    
 
     # Parse Query
-    locations, category = parse_query(question, model=model, client=client)
-    # print(f"Parsed locations: {locations}, category: {category}")
+    locations, categories, category_match, sort_order, limit = parse_query(question, model=model, client=client)
+    # print(f"Parsed locations: {locations}, categories: {categories}, match: {category_match}, sort: {sort_order}, limit: {limit}")
 
     # Guard: no location extracted
     if not locations:
@@ -234,20 +252,22 @@ def ask_question(question, model="gemini"):
         auth=(os.getenv("NEO4J_USERNAME"), os.getenv("NEO4J_PASSWORD"))
         )
 
-    # Format location and category
-    category = normalize_category(category)
+    # Normalize categories
+    categories = normalize_categories(categories)
 
     # Index graph from neo4j
-    results = search_restaurants(driver, locations, category)
+    results = search_restaurants(driver, locations, categories, category_match=category_match, sort_order=sort_order, limit=limit)
     if not results:
         # Fallback: expand planning-area name to its constituent MRT stations
         expanded = expand_locations(locations)
         if expanded != locations:
-            results = search_restaurants(driver, expanded, category)
-    
+            results = search_restaurants(driver, expanded, categories, category_match=category_match, sort_order=sort_order, limit=limit)
+
     # Build the restaurant list directly in Python — LLM must not filter or reorder
     restaurant_list = build_context(results)
     pareto_context = get_pareto_context(locations)
+
+    sort_label = "lowest rated first" if sort_order == "asc" else "highest rated first"
 
     # Standard RAG: pass retrieved data as context, LLM generates narrative only
     prompt = f"""
@@ -258,14 +278,15 @@ def ask_question(question, model="gemini"):
 
     The user asked: {question}
 
-    Retrieved restaurant data (already sorted by rating):
+    Retrieved restaurant data (sorted {sort_label}, showing {limit} results):
     {restaurant_list}
 
     {pareto_context}
 
     Instructions:
     - Write ONE short intro sentence summarising the data or addressing the location question
-    - Do NOT reproduce the restaurant list — it will be inserted automatically after your intro
+    - Do NOT reproduce the restaurant list — it will be inserted automatically
+    - Do not write any numbered lines (e.g. "1.", "2.")
     - After the list, write a "Using Pareto Analysis:" section:
         * If the area IS Pareto-optimal: explain which F&B concepts it excels at and what that means for the location
         * If the area is NOT Pareto-optimal: state it did not make the shortlist and what that implies for the competitive landscape
@@ -310,9 +331,18 @@ def ask_question(question, model="gemini"):
         )
         llm_text = response.choices[0].message.content
 
-    # Split LLM output: intro line vs the rest (Pareto + closing)
-    llm_lines = llm_text.strip().split('\n')
-    intro = llm_lines[0].strip()
+    # Strip any restaurant list lines the LLM reproduced (numbered items or lines with "Rating:")
+    def _is_list_line(line):
+        return bool(re.match(r'^\s*\d+\.\s+', line)) or 'Rating:' in line
+
+    llm_lines = [l for l in llm_text.strip().split('\n') if not _is_list_line(l)]
+    # Remove leading/trailing blank lines
+    while llm_lines and not llm_lines[0].strip():
+        llm_lines.pop(0)
+    while llm_lines and not llm_lines[-1].strip():
+        llm_lines.pop()
+
+    intro = llm_lines[0].strip() if llm_lines else ""
     rest = '\n'.join(llm_lines[1:]).strip()
 
     if results:
@@ -334,14 +364,6 @@ def _build_category_synonyms() -> dict:
         synonyms = {k: group_fixes.get(v, v) for k, v in raw.items()}
     except Exception:
         synonyms = {}
-    # items not covered by category_map.json
-    synonyms.update({
-        "malay": "malaysian",
-        "malay food": "malaysian",
-        "hawker food": "hawker stall",
-        "hawker center": "hawker stall",
-        "coffee": "cafe",
-    })
     return synonyms
 
 _CATEGORY_SYNONYMS = _build_category_synonyms()
@@ -350,38 +372,40 @@ def normalize_category(category: str) -> str:
     cat = category.replace("_", " ").lower().strip()
     return _CATEGORY_SYNONYMS.get(cat, cat)
 
-# Copied from neo4j queries
-def search_restaurants(driver, mrt_names, category_name):
-    with driver.session() as session:
-        if category_name:
-            # For Malay food, search both "malaysian" and "halal" together
-            categories = (
-                ["malaysian", "halal"]
-                if category_name.lower() == "malaysian"
-                else [category_name]
-            )
-            result = session.run("""
-                MATCH (r:Restaurant)-[:IS_NEAR_TO]->(m:MRT),
-                      (r)-[:FOOD_CATEGORIZED_AS]->(c:FoodCategory)
-                WHERE any(mrt IN $mrts WHERE m.name CONTAINS mrt)
-                  AND toLower(c.name) IN $categories
-                  AND r.rating IS NOT NULL AND NOT isNaN(r.rating)
-                RETURN DISTINCT r.name AS name, r.rating AS rating, r.address AS address,
-                       c.name AS category
-                ORDER BY r.rating DESC LIMIT 20
-            """, mrts=mrt_names, categories=categories)
-            rows = [record.data() for record in result]
-            if rows:
-                return rows
+def normalize_categories(categories: list) -> list:
+    return [normalize_category(c) for c in categories if c]
 
-        # Fallback: no category filter
-        result = session.run("""
+# Copied from neo4j queries
+def search_restaurants(driver, mrt_names, categories, category_match="all", sort_order="desc", limit=10):
+    order = "ASC" if sort_order == "asc" else "DESC"
+    cypher_quantifier = "all" if category_match == "all" else "any"
+    with driver.session() as session:
+        if categories:
+            result = session.run(f"""
+                MATCH (r:Restaurant)-[:IS_NEAR_TO]->(m:MRT)
+                WHERE any(mrt IN $mrts WHERE m.name CONTAINS mrt)
+                  AND r.rating IS NOT NULL AND NOT isNaN(r.rating)
+                  AND {cypher_quantifier}(cat IN $categories WHERE
+                      EXISTS {{
+                          MATCH (r)-[:FOOD_CATEGORIZED_AS]->(c:FoodCategory)
+                          WHERE toLower(c.name) = cat
+                      }}
+                  )
+                WITH r, [(r)-[:FOOD_CATEGORIZED_AS]->(c:FoodCategory) | c.name] AS cats
+                RETURN r.name AS name, r.rating AS rating, r.address AS address,
+                       cats[0] AS category
+                ORDER BY r.rating {order} LIMIT $limit
+            """, mrts=mrt_names, categories=categories, limit=limit)
+            return [record.data() for record in result]
+
+        # Fallback: no category filter (only used when no categories were requested)
+        result = session.run(f"""
             MATCH (r:Restaurant)-[:IS_NEAR_TO]->(m:MRT)
             WHERE any(mrt IN $mrts WHERE m.name CONTAINS mrt)
               AND r.rating IS NOT NULL AND NOT isNaN(r.rating)
             RETURN DISTINCT r.name AS name, r.rating AS rating, r.address AS address
-            ORDER BY r.rating DESC LIMIT 20
-        """, mrts=mrt_names)
+            ORDER BY r.rating {order} LIMIT $limit
+        """, mrts=mrt_names, limit=limit)
         return [record.data() for record in result]
 
 if __name__ == "__main__":

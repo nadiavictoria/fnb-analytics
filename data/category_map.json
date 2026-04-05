@@ -1,6 +1,8 @@
 {
   "hawker stall": "hawker",
   "hawker center": "hawker",
+  "hawker food": "hawker",
+  "hawker centre": "hawker",
 
   "restaurant": "restaurant",
   "self service restaurant": "restaurant",
@@ -51,6 +53,8 @@
   "thai": "thai",
   "vietnamese": "vietnamese",
   "malaysian": "malaysian",
+  "malay": "malaysian",
+  "malay food": "malaysian",
   "indonesian": "indonesian",
   "filipino": "filipino",
   "singaporean": "singaporean",
@@ -61,6 +65,7 @@
   "modern british": "western",
 
   "cafe": "cafe",
+  "coffee": "cafe",
   "coffee shop": "cafe",
   "coffee stand": "cafe",
   "internet cafe": "cafe",
