@@ -1,5 +1,7 @@
 # MakanMetrics
 
+![MakanMetrics](makanmetrics.png)
+
 MakanMetrics is an F&B location intelligence platform for Singapore. It combines graph-based restaurant indexing, Pareto-front analysis, KMeans clustering and an AI-powered chatbot to help users explore and evaluate F&B business opportunities by planning area.
 
 ## Features
