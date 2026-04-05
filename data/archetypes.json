@@ -1,0 +1,32 @@
+{
+  "affordable_everyday_meal": {
+    "description": "Affordable everyday dining",
+    "maximize": ["log_footfall", "low_income_ratio", "mid_income_ratio", "hawker_stall_count_ratio"],
+    "minimize": ["mean_price_mid"],
+    "sort_col": "log_footfall"
+  },
+  "premium_cafe": {
+    "description": "Premium cafe / specialty cafe",
+    "maximize": ["mean_price_mid", "high_income_ratio", "unique_category_count", "mean_rating"],
+    "minimize": [],
+    "sort_col": "mean_price_mid"
+  },
+  "family_casual_dining": {
+    "description": "Family-oriented casual dining",
+    "maximize": ["children_ratio", "mid_age_adults_ratio", "weekend_ratio", "mid_income_ratio"],
+    "minimize": ["mean_price_mid", "log_competitor_count"],
+    "sort_col": "mid_income_ratio"
+  },
+  "local_cuisine": {
+    "description": "Local cuisine / traditional favorites",
+    "maximize": ["chinese_count_ratio", "indian_count_ratio", "hawker_stall_count_ratio"],
+    "minimize": ["cafe_count_ratio"],
+    "sort_col": "hawker_stall_count_ratio"
+  },
+  "fast_food_grab_go": {
+    "description": "Fast-food / grab-and-go concept",
+    "maximize": ["log_footfall", "weekday_ratio", "fast_food_count_ratio", "teens_youth_ratio"],
+    "minimize": ["mean_price_mid"],
+    "sort_col": "log_footfall"
+  }
+}

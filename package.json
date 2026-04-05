@@ -1,5 +1,5 @@
 {
-  "name": "MakanMetrics",
+  "name": "makanmetrics",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,9 +16,7 @@
     "react": "^19.2.4",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.4",
-    "react-leaflet": "^5.0.0",
-    "react-markdown": "^10.1.0",
-    "remark-breaks": "^4.0.0"
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

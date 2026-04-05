@@ -554,65 +554,10 @@ def build_area_payload(
 
 
 def main() -> None:
-    concepts = {
-        "affordable_everyday_meal": {
-            "description": "Affordable everyday dining",
-            "maximize": [
-                "log_footfall",
-                "low_income_ratio",
-                "mid_income_ratio",
-                "hawker_stall_count_ratio",
-            ],
-            "minimize": ["mean_price_mid"],
-        },
-        "premium_cafe": {
-            "description": "Premium cafe / specialty cafe",
-            "maximize": [
-                "mean_price_mid",
-                "high_income_ratio",
-                "unique_category_count",
-                "mean_rating",
-            ],
-            "minimize": [],
-        },
-        "family_casual_dining": {
-            "description": "Family-oriented casual dining",
-            "maximize": [
-                "children_ratio",
-                "mid_age_adults_ratio",
-                "weekend_ratio",
-                "mid_income_ratio",
-            ],
-            "minimize": ["mean_price_mid", "log_competitor_count"],
-        },
-        "local_cuisine": {
-            "description": "Local cuisine / traditional favorites",
-            "maximize": [
-                "chinese_count_ratio",
-                "indian_count_ratio",
-                "hawker_stall_count_ratio",
-            ],
-            "minimize": ["cafe_count_ratio"],
-        },
-        "fast_food_grab_go": {
-            "description": "Fast-food / grab-and-go concept",
-            "maximize": [
-                "log_footfall",
-                "weekday_ratio",
-                "fast_food_count_ratio",
-                "teens_youth_ratio",
-            ],
-            "minimize": ["mean_price_mid"],
-        },
-    }
+    with open(Path(__file__).resolve().parent / "archetypes.json") as f:
+        concepts = json.load(f)
 
-    concept_sort_cols = {
-        "affordable_everyday_meal": "log_footfall",
-        "premium_cafe": "mean_price_mid",
-        "family_casual_dining": "mid_income_ratio",
-        "local_cuisine": "hawker_stall_count_ratio",
-        "fast_food_grab_go": "log_footfall",
-    }
+    concept_sort_cols = {key: cfg["sort_col"] for key, cfg in concepts.items()}
 
     df = pd.read_csv(MASTER_DATASET, usecols=MASTER_DATASET_COLS)
     analysis_df = build_analysis_df(df)

@@ -1,0 +1,225 @@
+{
+  "ANG MO KIO": [
+    "ang_mo_kio",
+    "bright_hill",
+    "lentor",
+    "mayflower",
+    "springleaf",
+    "upper_thomson",
+    "yio_chu_kang"
+  ],
+  "BEDOK": [
+    "bayshore",
+    "bedok",
+    "bedok_north",
+    "bedok_reservoir",
+    "kaki_bukit",
+    "kembangan"
+  ],
+  "BISHAN": [
+    "bishan",
+    "caldecott",
+    "marymount"
+  ],
+  "BOON LAY": [
+    "boon_lay"
+  ],
+  "BUKIT BATOK": [
+    "bukit_batok",
+    "bukit_gombak"
+  ],
+  "BUKIT MERAH": [
+    "harbourfront",
+    "redhill",
+    "telok_blangah",
+    "tiong_bahru"
+  ],
+  "BUKIT PANJANG": [
+    "bukit_panjang",
+    "cashew"
+  ],
+  "BUKIT TIMAH": [
+    "beauty_world",
+    "botanic_gardens",
+    "farrer_road",
+    "hillview",
+    "king_albert_park",
+    "sixth_avenue",
+    "tan_kah_kee"
+  ],
+  "CHANGI": [
+    "changi_airport",
+    "expo",
+    "tanah_merah",
+    "upper_changi"
+  ],
+  "CHOA CHU KANG": [
+    "choa_chu_kang",
+    "yew_tee"
+  ],
+  "CLEMENTI": [
+    "clementi"
+  ],
+  "DOWNTOWN CORE": [
+    "bayfront",
+    "city_hall",
+    "downtown",
+    "esplanade",
+    "gardens_by_the_bay",
+    "marina_bay",
+    "promenade",
+    "raffles_place",
+    "shenton_way",
+    "telok_ayer"
+  ],
+  "GEYLANG": [
+    "aljunied",
+    "dakota",
+    "eunos",
+    "macpherson",
+    "mattar",
+    "ubi"
+  ],
+  "HOUGANG": [
+    "hougang",
+    "kovan"
+  ],
+  "JURONG EAST": [
+    "chinese_garden",
+    "jurong_east",
+    "lakeside"
+  ],
+  "JURONG WEST": [
+    "joo_koon"
+  ],
+  "KALLANG": [
+    "bendeemer",
+    "boon_keng",
+    "geylang_bahru",
+    "kallang",
+    "lavender",
+    "mountbatten",
+    "nicoll_highway",
+    "stadium",
+    "tanjong_rhu"
+  ],
+  "MARINA SOUTH": [
+    "marina_south_pier"
+  ],
+  "MARINE PARADE": [
+    "katong_park",
+    "marine_parade",
+    "marine_terrace",
+    "siglap",
+    "tanjong_katong"
+  ],
+  "MUSEUM": [
+    "bras_basah",
+    "dhoby_ghaut"
+  ],
+  "NEWTON": [
+    "newton"
+  ],
+  "NOVENA": [
+    "novena",
+    "stevens"
+  ],
+  "ORCHARD": [
+    "orchard",
+    "orchard_boulevard",
+    "somerset"
+  ],
+  "OUTRAM": [
+    "chinatown",
+    "maxwell",
+    "outram_park",
+    "tanjong_pagar"
+  ],
+  "PASIR RIS": [
+    "pasir_ris"
+  ],
+  "PAYA LEBAR": [
+    "paya_lebar",
+    "tai_seng"
+  ],
+  "PIONEER": [
+    "pioneer"
+  ],
+  "PUNGGOL": [
+    "punggol"
+  ],
+  "QUEENSTOWN": [
+    "buona_vista",
+    "commonwealth",
+    "dover",
+    "haw_par_villa",
+    "holland_village",
+    "kent_ridge",
+    "labrador_park",
+    "one_north",
+    "pasir_panjang",
+    "queenstown"
+  ],
+  "RIVER VALLEY": [
+    "great_world"
+  ],
+  "ROCHOR": [
+    "bencoolen",
+    "bugis",
+    "farrer_park",
+    "jalan_besar",
+    "little_india",
+    "rochor"
+  ],
+  "SEMBAWANG": [
+    "canberra",
+    "sembawang"
+  ],
+  "SENGKANG": [
+    "buangkok",
+    "sengkang"
+  ],
+  "SERANGOON": [
+    "bartley",
+    "lorong_chuan",
+    "serangoon",
+    "woodleigh"
+  ],
+  "SINGAPORE RIVER": [
+    "clarke_quay",
+    "fort_canning",
+    "havelock"
+  ],
+  "TAMPINES": [
+    "simei",
+    "tampines",
+    "tampines_east",
+    "tampines_west"
+  ],
+  "TANGLIN": [
+    "napier"
+  ],
+  "TOA PAYOH": [
+    "braddell",
+    "potong_pasir",
+    "toa_payoh"
+  ],
+  "TUAS": [
+    "gul_circle",
+    "tuas_crescent",
+    "tuas_link",
+    "tuas_west_road"
+  ],
+  "WOODLANDS": [
+    "admiralty",
+    "kranji",
+    "marsiling",
+    "woodlands",
+    "woodlands_north",
+    "woodlands_south"
+  ],
+  "YISHUN": [
+    "khatib",
+    "yishun"
+  ]
+}
