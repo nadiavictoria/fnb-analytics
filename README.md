@@ -186,17 +186,59 @@ This will refresh:
 From inside the `fnb-analytics` folder:
 
 ```bash
-python -m http.server
+npm run dev
 ```
 
-By default, this starts a local server on port `8000`.
+By default, this starts a local web server on port `5173` using vite that spins up a React app. Make sure that you have all the packages installed. If not, install the packages described in package.json:
+
+```bash
+npm install
+```
+
 
 ## Accessing The HTML
 
 After the server starts, open:
 
 ```text
-http://localhost:8000/pareto_map_updated.html
+http://localhost:5173/
 ```
 
 If you change the JSON or HTML and do not see the update immediately, do a hard refresh in the browser.
+
+## Running the chatbot
+
+### Step 1:
+Make sure that all the project python requirements are installed.
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2:
+Install and run a local Neo4J DB service (make sure that the instance is running) and then run the project\restaurant_02_build_graph_db.ipynb script.
+
+### Step 3:
+Make sure that your .env file in the local directory has all the required keys. Get an OpenAI API key. Note: Requires a minimum of $5 spend here. Neo4j local credentials are in the data/askllm.py script
+
+```text
+OPENAI_API_KEY_HERE
+
+NEO4J_URI
+NEO4J_USERNAME
+NEO4J_PASSWORD
+```
+Pinecone and Google API keys not needed for demo
+
+### Step 4:
+Run the FastAPI service using uvicorn. Navigate to the data directory (where askllm.py exists) and then run the following command:
+
+```bash
+uvicorn data.api:app --reload
+```
+If all goes well, it should open up a backend API service  on port 8000 on localhost with the ask endpoint, i.e. http://localhost:8000/ask
+
+Quick recap for the entire app and chatbot to work:
+- Run a local instance of the React App/Vite. Run "npm run dev" in the main directory.
+- Run a local instance of the Neo4J Graph DB application and run the initialization python code
+- Run a local instance of the FastAPI app using uvicorn. Run "uvicorn data.api:app --reload" in the data directory
