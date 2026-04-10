@@ -3,9 +3,6 @@ import json
 import re
 import os
 
-from google import genai
-from openai import OpenAI
-from dotenv import load_dotenv
 from neo4j import GraphDatabase
 
 # ==========================================
@@ -32,15 +29,28 @@ def _load_pareto_cache() -> dict:
         analysis_df = build_analysis_df(df)
         # Seed cache with all known planning areas (empty list = not Pareto-optimal)
         cache: dict = {area: [] for area in analysis_df["PLANNING_AREA"].unique()}
-        for concept_key, cfg in archetypes.items():
+        for _, cfg in archetypes.items():
             pareto_df = run_pareto(analysis_df, cfg)
             for area in pareto_df["PLANNING_AREA"].tolist():
                 cache[area].append(cfg["description"])
         _pareto_cache = cache
     except Exception as e:
         print(f"Warning: Pareto cache unavailable: {e}")
-        _pareto_cache = {}
-    return _pareto_cache
+    return _pareto_cache or {}
+
+_neo4j_driver = None
+
+def _get_neo4j_driver():
+    global _neo4j_driver
+    if _neo4j_driver is None:
+        uri = os.getenv("NEO4J_URI")
+        user = os.getenv("NEO4J_USERNAME")
+        password = os.getenv("NEO4J_PASSWORD")
+        missing = [k for k, v in {"NEO4J_URI": uri, "NEO4J_USERNAME": user, "NEO4J_PASSWORD": password}.items() if not v]
+        if missing:
+            raise EnvironmentError(f"Missing required environment variable(s): {', '.join(missing)}")
+        _neo4j_driver = GraphDatabase.driver(uri, auth=(user, password))
+    return _neo4j_driver
 
 _mrt_mapping: dict | None = None
 _area_to_mrts: dict | None = None
@@ -56,8 +66,7 @@ def _load_mrt_mapping() -> dict:
             _mrt_mapping = _json.load(f)
     except Exception as e:
         print(f"Warning: MRT mapping unavailable: {e}")
-        _mrt_mapping = {}
-    return _mrt_mapping
+    return _mrt_mapping or {}
 
 def _load_area_to_mrts() -> dict:
     global _area_to_mrts
@@ -70,8 +79,7 @@ def _load_area_to_mrts() -> dict:
             _area_to_mrts = _json.load(f)
     except Exception as e:
         print(f"Warning: Area-to-MRT mapping unavailable: {e}")
-        _area_to_mrts = {}
-    return _area_to_mrts
+    return _area_to_mrts or {}
 
 
 def expand_locations(locations: list) -> list:
@@ -101,7 +109,7 @@ def get_pareto_context(locations: list) -> str:
     all_known_areas = set(cache.keys())
 
     for loc in locations:
-        # Resolve MRT station → one or more planning areas
+        # Resolve MRT station -> one or more planning areas
         mapped = mrt_map.get(loc)
         if mapped:
             areas = [mapped]
@@ -130,6 +138,30 @@ def get_pareto_context(locations: list) -> str:
 # ==========================================
 # PARSER
 # ==========================================
+def _parse_llm_json(raw_text: str) -> tuple:
+    cleaned = re.sub(r"```json|```", "", raw_text).strip()
+    parsed = json.loads(cleaned)
+    try:
+        limit = int(parsed.get("limit", 10))
+    except (ValueError, TypeError):
+        limit = 10
+
+    locations = parsed.get("locations", [])
+    if not isinstance(locations, list):
+        locations = [locations] if isinstance(locations, str) else []
+
+    categories = parsed.get("categories", [])
+    if not isinstance(categories, list):
+        categories = [categories] if isinstance(categories, str) else []
+
+    return (
+        locations,
+        categories,
+        parsed.get("category_match", "all"),
+        parsed.get("sort_order", "desc"),
+        limit,
+    )
+
 def parse_query(question, model, client):
     prompt = f"""
     Extract MRT station names, food category, sort order, and result limit from the query.
@@ -138,49 +170,29 @@ def parse_query(question, model, client):
     {{
         "locations": ["mrt_station_1", "mrt_station_2"],
         "categories": ["food_category_1", "food_category_2"],
-        "category_match": "all",
-        "sort_order": "desc",
-        "limit": 10
+        "category_match": "all or any",
+        "sort_order": "asc or desc",
+        "limit": "<number>"
     }}
 
     Rules:
     - Extract any place name that refers to an MRT station or area in Singapore (e.g. "jurong", "tampines", "bedok", "orchard", "choa chu kang")
-    - Convert location names to lowercase and replace spaces with underscores (e.g. "choa chu kang" → "choa_chu_kang")
+    - Convert location names to lowercase and replace spaces with underscores (e.g. "choa chu kang" -> "choa_chu_kang")
     - Partial names are valid: "jurong" is a valid location even if the full name is "jurong east"
     - categories is a list of specific food types the user wants (e.g. ["chinese", "halal"], ["japanese"], ["cafe"])
     - Generic words like "restaurant", "restaurants", "food", "place", "stall" are NOT a category — omit them
     - If no food category found, return []
     - category_match: "all" if the user wants restaurants matching ALL categories (e.g. "chinese halal", "chinese and halal"), "any" if the user wants restaurants matching ANY category (e.g. "chinese or halal", "chinese or japanese")
-    - sort_order: "asc" if the user asks for worst, lowest rated, cheapest, bottom, otherwise "desc"
-    - limit: the number the user asks for (e.g. "top 5" → 5, "3 restaurants" → 3), default to 10 if not specified
+    - sort_order: MUST be "asc" if the user asks for worst, lowest rated, cheapest, bottom, or any similar negative/minimum intent — MUST be "desc" for best, top, highest rated, or default
+    - Examples: "worst 10" -> "asc", "lowest rated" -> "asc", "top 5" -> "desc", "best" -> "desc"
+    - limit: the number the user asks for (e.g. "top 5" -> 5, "3 restaurants" -> 3), default to 10 if not specified
 
     Query: {question}
     """
 
-    # WITH GEMINI
     if model == "gemini":
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
-
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
         raw_text = response.text.strip()
-        cleaned = re.sub(r"```json|```", "", raw_text).strip()
-
-        try:
-            parsed = json.loads(cleaned)
-            return (
-                parsed.get("locations", []),
-                parsed.get("categories", []),
-                parsed.get("category_match", "all"),
-                parsed.get("sort_order", "desc"),
-                int(parsed.get("limit", 10)),
-            )
-        except Exception as e:
-            print("Parsing failed. Raw output:", raw_text)
-            return [], [], "all", "desc", 10
-
-    # WITH GPT MODEL
     elif model == "gpt":
         response = client.chat.completions.create(
             model='gpt-4.1-mini',
@@ -190,24 +202,18 @@ def parse_query(question, model, client):
             ],
             temperature=0
         )
-
         raw_text = response.choices[0].message.content.strip()
+    else:
+        raise ValueError(f"Unsupported model: {model!r}. Choose 'gemini' or 'gpt'.")
 
-        cleaned = re.sub(r"```json|```", "", raw_text).strip()
+    try:
+        return _parse_llm_json(raw_text)
+    except Exception:
+        print("Parsing failed. Raw output:", raw_text)
+        return [], [], "all", "desc", 10
 
-        try:
-            parsed = json.loads(cleaned)
-            return (
-                parsed.get("locations", []),
-                parsed.get("categories", []),
-                parsed.get("category_match", "all"),
-                parsed.get("sort_order", "desc"),
-                int(parsed.get("limit", 10)),
-            )
-        except Exception as e:
-            print("Parsing failed. Raw output:", raw_text)
-            print("Cleaned output:", cleaned)
-            return [], [], "all", "desc", 10
+def _is_list_line(line: str) -> bool:
+    return bool(re.match(r'^\s*\d+\.\s+', line)) or 'Rating:' in line
 
 # ==========================================
 # BUILD CONTEXT
@@ -228,9 +234,13 @@ def ask_question(question, model="gemini"):
     #print(f"\nQuestion: {question}")
 
     if model == "gemini":
-        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))        
+        from google import genai
+        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     elif model == "gpt":
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))    
+        from openai import OpenAI
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    else:
+        raise ValueError(f"Unsupported model: {model!r}. Choose 'gemini' or 'gpt'.")
 
     # Parse Query
     locations, categories, category_match, sort_order, limit = parse_query(question, model=model, client=client)
@@ -246,14 +256,11 @@ def ask_question(question, model="gemini"):
             "- \"Top rated restaurants near Woodlands\""
         )
 
-    # Initiate driver for neo4j
-    driver = GraphDatabase.driver(
-        os.getenv("NEO4J_URI"),
-        auth=(os.getenv("NEO4J_USERNAME"), os.getenv("NEO4J_PASSWORD"))
-        )
-
     # Normalize categories
     categories = normalize_categories(categories)
+
+    # Use persistent driver
+    driver = _get_neo4j_driver()
 
     # Index graph from neo4j
     results = search_restaurants(driver, locations, categories, category_match=category_match, sort_order=sort_order, limit=limit)
@@ -263,7 +270,7 @@ def ask_question(question, model="gemini"):
         if expanded != locations:
             results = search_restaurants(driver, expanded, categories, category_match=category_match, sort_order=sort_order, limit=limit)
 
-    # Build the restaurant list directly in Python — LLM must not filter or reorder
+    # Build the restaurant list directly in Python. LLM must not filter or reorder
     restaurant_list = build_context(results)
     pareto_context = get_pareto_context(locations)
 
@@ -332,9 +339,6 @@ def ask_question(question, model="gemini"):
         llm_text = response.choices[0].message.content
 
     # Strip any restaurant list lines the LLM reproduced (numbered items or lines with "Rating:")
-    def _is_list_line(line):
-        return bool(re.match(r'^\s*\d+\.\s+', line)) or 'Rating:' in line
-
     llm_lines = [l for l in llm_text.strip().split('\n') if not _is_list_line(l)]
     # Remove leading/trailing blank lines
     while llm_lines and not llm_lines[0].strip():
@@ -362,7 +366,8 @@ def _build_category_synonyms() -> dict:
         with open(_Path(__file__).resolve().parent / "category_map.json") as f:
             raw = _json.load(f)
         synonyms = {k: group_fixes.get(v, v) for k, v in raw.items()}
-    except Exception:
+    except Exception as e:
+        print(f"Warning: Category synonyms unavailable: {e}")
         synonyms = {}
     return synonyms
 
@@ -383,7 +388,7 @@ def search_restaurants(driver, mrt_names, categories, category_match="all", sort
         if categories:
             result = session.run(f"""
                 MATCH (r:Restaurant)-[:IS_NEAR_TO]->(m:MRT)
-                WHERE any(mrt IN $mrts WHERE m.name CONTAINS mrt)
+                WHERE any(mrt IN $mrts WHERE toLower(m.name) CONTAINS toLower(mrt))
                   AND r.rating IS NOT NULL AND NOT isNaN(r.rating)
                   AND {cypher_quantifier}(cat IN $categories WHERE
                       EXISTS {{
@@ -391,7 +396,7 @@ def search_restaurants(driver, mrt_names, categories, category_match="all", sort
                           WHERE toLower(c.name) = cat
                       }}
                   )
-                WITH r, [(r)-[:FOOD_CATEGORIZED_AS]->(c:FoodCategory) | c.name] AS cats
+                WITH DISTINCT r, [(r)-[:FOOD_CATEGORIZED_AS]->(c:FoodCategory) | c.name] AS cats
                 RETURN r.name AS name, r.rating AS rating, r.address AS address,
                        cats[0] AS category
                 ORDER BY r.rating {order} LIMIT $limit
@@ -401,7 +406,7 @@ def search_restaurants(driver, mrt_names, categories, category_match="all", sort
         # Fallback: no category filter (only used when no categories were requested)
         result = session.run(f"""
             MATCH (r:Restaurant)-[:IS_NEAR_TO]->(m:MRT)
-            WHERE any(mrt IN $mrts WHERE m.name CONTAINS mrt)
+            WHERE any(mrt IN $mrts WHERE toLower(m.name) CONTAINS toLower(mrt))
               AND r.rating IS NOT NULL AND NOT isNaN(r.rating)
             RETURN DISTINCT r.name AS name, r.rating AS rating, r.address AS address
             ORDER BY r.rating {order} LIMIT $limit
@@ -411,8 +416,7 @@ def search_restaurants(driver, mrt_names, categories, category_match="all", sort
 if __name__ == "__main__":
 
     # Make sure you have created .env and have either GEMINI_API_KEY or OPENAI_API_KEY
-    from pathlib import Path
-    from dotenv import find_dotenv
+    from dotenv import load_dotenv, find_dotenv
     load_dotenv(find_dotenv(usecwd=True), override=True)
 
     # Set model to either "GEMINI" or "GPT"
